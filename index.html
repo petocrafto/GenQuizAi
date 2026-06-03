@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Cerdas AI - Adaptive & Mastery</title>
+    <title>Genius AI - Kuis Adaptif & Evaluasi</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
@@ -16,9 +16,7 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
                     colors: {
                         primary: {"50":"#eff6ff","100":"#dbeafe","200":"#bfdbfe","300":"#93c5fd","400":"#60a5fa","500":"#3b82f6","600":"#2563eb","700":"#1d4ed8","800":"#1e40af","900":"#1e3a8a","950":"#172554"}
                     },
@@ -26,7 +24,6 @@
                         'blob': 'blob 7s infinite',
                         'fade-in': 'fadeIn 0.5s ease-out forwards',
                         'slide-up': 'slideUp 0.4s ease-out forwards',
-                        'spin-slow': 'spin 3s linear infinite',
                     },
                     keyframes: {
                         blob: {
@@ -35,14 +32,8 @@
                             '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
                             '100%': { transform: 'translate(0px, 0px) scale(1)' },
                         },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
                     }
                 }
             }
@@ -68,20 +59,12 @@
         }
 
         /* Checkbox & Radio Customization */
-        .custom-radio:checked + div {
-            border-color: #3b82f6; background-color: #eff6ff;
-        }
-        .dark .custom-radio:checked + div {
-            border-color: #60a5fa; background-color: rgba(59, 130, 246, 0.2);
-        }
+        .custom-radio:checked + div { border-color: #3b82f6; background-color: #eff6ff; }
+        .dark .custom-radio:checked + div { border-color: #60a5fa; background-color: rgba(59, 130, 246, 0.2); }
         .custom-radio:checked + div .radio-inner { transform: scale(1); opacity: 1; }
         
-        .custom-checkbox:checked + div {
-            border-color: #3b82f6; background-color: #eff6ff;
-        }
-        .dark .custom-checkbox:checked + div {
-            border-color: #60a5fa; background-color: rgba(59, 130, 246, 0.2);
-        }
+        .custom-checkbox:checked + div { border-color: #3b82f6; background-color: #eff6ff; }
+        .dark .custom-checkbox:checked + div { border-color: #60a5fa; background-color: rgba(59, 130, 246, 0.2); }
         .custom-checkbox:checked + div .check-icon { opacity: 1; transform: scale(1); }
 
         /* Screens */
@@ -89,9 +72,8 @@
         .screen.active { display: block; animation: fadeIn 0.4s ease-out forwards; }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 min-h-screen transition-colors duration-300 overflow-x-hidden">
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 min-h-screen transition-colors duration-300 overflow-x-hidden flex flex-col">
 
-    <!-- Animated Background Blobs -->
     <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
         <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary-300 dark:bg-primary-900 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-50 animate-blob"></div>
         <div class="absolute top-[-10%] right-[-10%] w-96 h-96 bg-purple-300 dark:bg-purple-900 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
@@ -127,18 +109,17 @@
     </nav>
 
     <!-- Main Container -->
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-12 min-h-screen flex flex-col justify-center">
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-12 flex-grow flex flex-col justify-center w-full">
         
         <!-- SCREEN 1: SETUP -->
         <div id="screen-setup" class="screen active w-full">
             <div class="glass rounded-3xl p-6 sm:p-8 shadow-xl animate-slide-up border border-white/50 dark:border-slate-700/50">
                 <div class="text-center mb-8">
                     <h2 class="text-3xl font-extrabold mb-2">Rancang Kuis Adaptif</h2>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm">Tempelkan materi atau kisi-kisi, tentukan jumlah soal per kategori, dan biarkan AI menyusunnya untuk Anda.</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Tempelkan kisi-kisi atau materi lengkap, tentukan komposisi soal, dan biarkan AI menyusunnya.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    
                     <!-- Kiri: Topik & Materi -->
                     <div class="space-y-5">
                         <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700 pb-2 flex items-center gap-2">
@@ -250,8 +231,6 @@
             </div>
             <h3 class="text-2xl font-bold mb-3 text-center" id="loading-title">AI Sedang Meracik Soal...</h3>
             <p class="text-slate-500 dark:text-slate-400 text-center max-w-md mb-6 leading-relaxed" id="loading-desc">Menganalisis kisi-kisi dan merumuskan soal yang menantang sesuai spesifikasi Anda.</p>
-            
-            <!-- Progress Bar Text -->
             <div class="w-full max-w-md px-4">
                 <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                     <div class="h-full bg-primary-500 w-1/2 animate-pulse rounded-full"></div>
@@ -261,12 +240,14 @@
 
         <!-- SCREEN 3: QUIZ PLAYER -->
         <div id="screen-quiz" class="screen w-full">
-            
             <div class="flex flex-col lg:flex-row gap-6">
                 <!-- Kiri: Status & Navigasi -->
                 <div class="w-full lg:w-72 shrink-0 space-y-4">
                     <div class="glass rounded-2xl p-5 shadow-sm">
-                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Peta Soal</div>
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex justify-between items-center">
+                            <span>Peta Soal</span>
+                            <span id="quiz-progress-text" class="text-primary-600 dark:text-primary-400">1/10</span>
+                        </div>
                         <div class="grid grid-cols-5 sm:grid-cols-10 lg:grid-cols-5 gap-2 max-h-48 lg:max-h-80 overflow-y-auto custom-scrollbar pr-1" id="question-nav-grid">
                             <!-- Nav buttons injected here -->
                         </div>
@@ -278,9 +259,9 @@
                             <i class="ph-fill ph-robot text-2xl text-violet-600 dark:text-violet-400"></i>
                             <div>
                                 <h4 class="font-bold text-sm text-violet-900 dark:text-violet-300">Tutor AI</h4>
-                                <p class="text-[10px] text-violet-700/70 dark:text-violet-400/70 leading-tight mb-2 mt-1">Bingung dengan konsep soal ini? Tanyakan pada AI tanpa memberikan jawaban.</p>
+                                <p class="text-[10px] text-violet-700/70 dark:text-violet-400/70 leading-tight mb-2 mt-1">Bingung dengan konsep soal ini? Tanyakan pada AI.</p>
                                 <button onclick="openAIChatModal()" class="w-full py-2 bg-white dark:bg-slate-800 text-violet-700 dark:text-violet-300 text-xs font-bold rounded-lg shadow-sm hover:shadow transition-all border border-violet-100 dark:border-violet-700/50">
-                                    Tanya Penjelasan Konsep
+                                    Tanya Konsep Dasar
                                 </button>
                             </div>
                         </div>
@@ -291,28 +272,23 @@
                 <div class="flex-grow flex flex-col h-full min-h-[500px]">
                     <div class="glass rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col animate-slide-up flex-grow relative border border-white/50 dark:border-slate-700/50">
                         
-                        <!-- Progress Top -->
                         <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-200 dark:border-slate-700/50">
                             <div class="flex items-center gap-3">
                                 <span id="question-type-badge" class="px-3 py-1 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-wider">Tipe</span>
                                 <span id="question-chapter-badge" class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] sm:text-xs font-semibold truncate max-w-[150px] sm:max-w-xs" title="Bab">Bab</span>
                             </div>
-                            <div class="font-bold text-slate-400" id="quiz-progress-text">1/10</div>
                         </div>
 
-                        <!-- Pertanyaan -->
                         <div class="flex-grow flex flex-col">
                             <h3 id="question-text" class="text-lg sm:text-xl font-semibold mb-8 leading-relaxed prose dark:prose-invert max-w-none">
                                 Memuat pertanyaan...
                             </h3>
-
                             <!-- Input Area -->
                             <div id="options-container" class="space-y-3 flex-grow">
                                 <!-- Options injected via JS -->
                             </div>
                         </div>
 
-                        <!-- Footer Navigasi -->
                         <div class="flex items-center justify-between mt-8 pt-6 border-t border-slate-200 dark:border-slate-700/50">
                             <button id="btn-prev" onclick="prevQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors font-semibold flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
                                 <i class="ph-bold ph-arrow-left"></i> <span class="hidden sm:inline">Sebelumnya</span>
@@ -331,15 +307,13 @@
 
         <!-- SCREEN 4: RESULTS -->
         <div id="screen-result" class="screen w-full">
-            
             <!-- Header Score -->
             <div class="glass rounded-3xl p-8 shadow-xl animate-slide-up text-center mb-8 border border-white/50 dark:border-slate-700/50 relative overflow-hidden">
-                <!-- Deco -->
                 <i class="ph-fill ph-confetti absolute -top-4 -left-4 text-8xl text-yellow-400/20 rotate-12"></i>
                 <i class="ph-fill ph-trophy absolute -bottom-4 -right-4 text-8xl text-primary-400/20 -rotate-12"></i>
                 
                 <h2 class="text-3xl font-extrabold mb-2 relative z-10">Laporan Evaluasi AI</h2>
-                <p class="text-slate-500 dark:text-slate-400 mb-8 relative z-10">Koreksi otomatis (Objektif) dan koreksi semantik AI (Subjektif) telah selesai.</p>
+                <p class="text-slate-500 dark:text-slate-400 mb-8 relative z-10">Koreksi otomatis dan evaluasi semantik AI telah selesai.</p>
                 
                 <div class="flex justify-center items-center gap-8 relative z-10">
                     <div class="text-center">
@@ -389,8 +363,8 @@
             <div class="flex items-center justify-between mb-4 mt-10">
                 <h3 class="text-xl font-bold">Review & Pembahasan Detail</h3>
                 <div class="flex gap-2">
-                    <button onclick="filterReview('all')" id="btn-filter-all" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-800">Semua</button>
-                    <button onclick="filterReview('wrong')" id="btn-filter-wrong" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-200 text-slate-600 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-400">Salah</button>
+                    <button onclick="filterReview('all')" id="btn-filter-all" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-800 transition-colors">Semua</button>
+                    <button onclick="filterReview('wrong')" id="btn-filter-wrong" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-200 text-slate-600 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-400 transition-colors">Salah</button>
                 </div>
             </div>
             
@@ -404,7 +378,6 @@
                 </button>
             </div>
         </div>
-
     </main>
 
     <!-- Modal AI Tutor Chat -->
@@ -430,11 +403,9 @@
             </div>
 
             <div class="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
-                <div class="flex gap-2 mb-2" id="ai-suggested-questions">
-                    <!-- Quick chips -->
-                </div>
+                <div class="flex gap-2 mb-2" id="ai-suggested-questions"></div>
                 <div class="flex gap-2">
-                    <input type="text" id="ai-user-query" placeholder="Tanyakan konsep (bukan meminta jawaban)..." class="flex-grow px-4 py-3 bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-violet-500 rounded-xl text-sm outline-none transition-colors">
+                    <input type="text" id="ai-user-query" placeholder="Tanyakan konsep..." class="flex-grow px-4 py-3 bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-violet-500 rounded-xl text-sm outline-none transition-colors">
                     <button onclick="sendAIChat()" class="bg-violet-600 hover:bg-violet-700 text-white px-5 py-3 rounded-xl shadow-md transition-all flex items-center gap-2 shrink-0">
                         <i class="ph-bold ph-paper-plane-right"></i>
                     </button>
@@ -454,14 +425,14 @@
                     <i class="ph-bold ph-x text-xl"></i>
                 </button>
             </div>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Aplikasi ini membutuhkan API Key dari Gemini untuk membuat soal, menilai uraian, dan AI Tutor.</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Aplikasi ini membutuhkan API Key dari Gemini (Google AI Studio) untuk meracik soal dan mengevaluasi esai.</p>
             
             <div class="space-y-4">
                 <div>
                     <input type="password" id="api-key-input" placeholder="AIzaSy..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-mono">
                 </div>
                 <div class="text-[11px] text-slate-500 p-3 bg-slate-100 dark:bg-slate-700/50 rounded-lg">
-                    Key disimpan aman secara lokal (Local Storage). Dapatkan key gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-primary-500 font-bold hover:underline">Google AI Studio</a>.
+                    Key disimpan aman secara lokal. Dapatkan key gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-primary-500 font-bold hover:underline">Google AI Studio</a>.
                 </div>
                 <button onclick="saveApiKey()" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md">
                     Simpan & Terapkan
@@ -474,13 +445,11 @@
     <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
     <script>
-        /* --- STATE MANAGEMENT --- */
-        const APP_VERSION = 'v2.0';
+        const APP_VERSION = 'v2.5';
         let state = {
             apiKey: '',
             theme: 'light',
             status: 'setup', 
-            settings: {},
             questions: [],
             answers: {}, 
             results: [],
@@ -490,7 +459,7 @@
         };
 
         function loadState() {
-            const savedState = localStorage.getItem('geniusQuizState_v2');
+            const savedState = localStorage.getItem('geniusQuizState_v2.5');
             if (savedState) {
                 try {
                     const parsed = JSON.parse(savedState);
@@ -504,12 +473,11 @@
                 document.documentElement.classList.add('dark');
                 document.getElementById('theme-icon').classList.replace('ph-moon', 'ph-sun');
             }
-
             updateUIBasedOnState();
         }
 
         function saveState() {
-            localStorage.setItem('geniusQuizState_v2', JSON.stringify({ version: APP_VERSION, data: state }));
+            localStorage.setItem('geniusQuizState_v2.5', JSON.stringify({ version: APP_VERSION, data: state }));
         }
 
         function resetState() {
@@ -517,30 +485,13 @@
             const theme = state.theme;
             state = {
                 apiKey: key, theme: theme,
-                status: 'setup', settings: {}, questions: [], answers: {}, results: [], chapterAnalysis: {}, currentIndex: 0, score: 0
+                status: 'setup', questions: [], answers: {}, results: [], chapterAnalysis: {}, currentIndex: 0, score: 0
             };
             saveState();
             updateUIBasedOnState();
         }
 
-        /* --- DOWNLOAD HTML --- */
-        function downloadHtml() {
-            try {
-                const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-                const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "Kuis_Adaptif_AI.html";
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                showToast("Berhasil Diunduh", "File kuis tersimpan di perangkat Anda.", "success");
-            } catch (err) {
-                showToast("Gagal", "Gagal mengunduh file.", "error");
-            }
-        }
-
-        /* --- UI CONTROLLERS --- */
+        /* --- UI HELPERS --- */
         function switchScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
@@ -579,7 +530,6 @@
             saveState();
         }
 
-        /* --- API KEY MANAGEMENT --- */
         function openApiModal() {
             document.getElementById('api-key-input').value = state.apiKey || '';
             document.getElementById('api-modal').classList.remove('opacity-0', 'pointer-events-none');
@@ -600,10 +550,9 @@
         function showToast(title, message, type="info") {
             const container = document.getElementById("toast-container");
             const toast = document.createElement("div");
-            
-            let colors = type === "success" ? "bg-emerald-100 border-emerald-500 text-emerald-800 dark:bg-emerald-900/80 dark:border-emerald-400 dark:text-emerald-100" :
-                         type === "error" ? "bg-rose-100 border-rose-500 text-rose-800 dark:bg-rose-900/80 dark:border-rose-400 dark:text-rose-100" :
-                         "bg-blue-100 border-blue-500 text-blue-800 dark:bg-blue-900/80 dark:border-blue-400 dark:text-blue-100";
+            let colors = type === "success" ? "bg-emerald-100 border-emerald-500 text-emerald-800 dark:bg-emerald-900/90 dark:border-emerald-400 dark:text-emerald-100" :
+                         type === "error" ? "bg-rose-100 border-rose-500 text-rose-800 dark:bg-rose-900/90 dark:border-rose-400 dark:text-rose-100" :
+                         "bg-blue-100 border-blue-500 text-blue-800 dark:bg-blue-900/90 dark:border-blue-400 dark:text-blue-100";
             let icon = type === "success" ? "ph-check-circle" : type === "error" ? "ph-warning-circle" : "ph-info";
 
             toast.className = `flex items-start p-4 mb-2 shadow-lg rounded-xl border-l-4 transform transition-all duration-300 translate-y-full opacity-0 ${colors} pointer-events-auto max-w-sm`;
@@ -614,17 +563,39 @@
             setTimeout(() => { toast.classList.add("opacity-0", "translate-x-full"); setTimeout(() => toast.remove(), 300); }, 5000);
         }
 
-        /* --- GEMINI API CALLER --- */
+        function downloadHtml() {
+            try {
+                const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+                const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "Kuis_Adaptif_AI.html";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast("Berhasil Diunduh", "File kuis tersimpan di perangkat Anda.", "success");
+            } catch (err) {
+                showToast("Gagal", "Gagal mengunduh file.", "error");
+            }
+        }
+
+        /* --- GEMINI API ENGINE --- */
         async function fetchGeminiAPI(promptText, sysPrompt = "", useJSON = true) {
             if (!state.apiKey) throw new Error("API Key tidak ditemukan!");
+            // Using gemini-2.5-flash for reliability and speed
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${state.apiKey}`;
             
             const payload = { contents: [{ parts: [{ text: promptText }] }] };
             if (sysPrompt) payload.systemInstruction = { parts: [{ text: sysPrompt }] };
-            if (useJSON) payload.generationConfig = { responseMimeType: "application/json" };
+            if (useJSON) {
+                // Strict JSON Schema enforces the model to output perfect JSON
+                payload.generationConfig = { 
+                    responseMimeType: "application/json",
+                };
+            }
 
             let delay = 1000;
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < 3; i++) { // Max 3 retries
                 try {
                     const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     if (!response.ok) {
@@ -632,15 +603,24 @@
                         throw new Error(err.error?.message || `HTTP ${response.status}`);
                     }
                     const result = await response.json();
+                    if (!result.candidates || result.candidates.length === 0) throw new Error("Respon API kosong.");
+                    
                     let text = result.candidates[0].content.parts[0].text;
+                    
                     if(useJSON) {
-                        // Clean markdown if present
+                        // Extract array safely if markdown leaked
                         text = text.replace(/```json/gi, '').replace(/```/gi, '').trim();
+                        const startIdx = text.indexOf('[');
+                        const endIdx = text.lastIndexOf(']');
+                        if(startIdx !== -1 && endIdx !== -1) {
+                            text = text.substring(startIdx, endIdx + 1);
+                        }
                         return JSON.parse(text);
                     }
                     return text;
                 } catch (error) {
-                    if (i === 3) throw error;
+                    console.warn(`Attempt ${i+1} failed:`, error);
+                    if (i === 2) throw error;
                     await new Promise(r => setTimeout(r, delay));
                     delay *= 2;
                 }
@@ -655,7 +635,7 @@
             let sysPrompt = "";
 
             if (!isRemedial) {
-                const topic = document.getElementById('setup-topic').value.trim() || 'Pengetahuan Umum (Acak)';
+                const topic = document.getElementById('setup-topic').value.trim() || 'Pengetahuan Umum Acak';
                 const diff = document.getElementById('setup-difficulty').value;
                 const cPG = parseInt(document.getElementById('count-pg').value) || 0;
                 const cPGK = parseInt(document.getElementById('count-pgk').value) || 0;
@@ -665,40 +645,40 @@
 
                 const total = cPG + cPGK + cMJ + cIS + cUR;
                 if(total <= 0) return showToast("Error", "Total soal minimal 1.", "error");
-                if(total > 50) return showToast("Peringatan", "Maksimal 50 soal sekaligus untuk menjaga kestabilan memori.", "error");
+                if(total > 40) return showToast("Peringatan", "Maksimal 40 soal sekaligus agar proses AI tidak terbebani.", "error");
 
                 let diffDesc = "";
-                if(diff === "Mudah") diffDesc = "Fokus pada hafalan dasar (C1) dan pemahaman konsep (C2).";
+                if(diff === "Mudah") diffDesc = "Hafalan dasar (C1) dan pemahaman konsep (C2).";
                 else if(diff === "Sedang") diffDesc = "Keseimbangan aplikasi (C3) dan pemahaman (C2).";
-                else if(diff === "Menengah") diffDesc = "Analisis ringan (C4), gunakan konteks kasus/cerita keseharian.";
-                else diffDesc = "Level HOTS tingkat tinggi (C4-C6). Wajib gunakan skenario analitis, pemecahan masalah kompleks, hindari hafalan langsung.";
+                else if(diff === "Menengah") diffDesc = "Analisis ringan (C4), gunakan konteks kasus keseharian.";
+                else diffDesc = "Full HOTS tingkat tinggi (C4-C6). Wajib skenario analitis, hindari hafalan.";
 
-                sysPrompt = `Anda adalah ahli kurikulum pendidikan pembuat soal bermutu tinggi.`;
-                prompt = `Buatkan set soal ujian berdasarkan silabus/materi berikut:
+                sysPrompt = `Anda adalah ahli kurikulum pendidikan yang presisi.`;
+                prompt = `Topik / Kisi-kisi materi:
 """${topic}"""
 
 Tingkat Kesulitan: ${diff} (${diffDesc})
 
-Buatlah TEPAT:
-- ${cPG} soal Pilihan Ganda (PG) - 1 jawaban benar.
-- ${cPGK} soal PG Kompleks (PGK) - lebih dari 1 jawaban benar.
-- ${cMJ} soal Menjodohkan (MJ) - 1 kunci jawaban dari list opsi.
-- ${cIS} soal Isian Singkat (ISIAN) - jawaban 1-3 kata.
-- ${cUR} soal Uraian (URAIAN) - butuh penjelasan analitis.
+Buatlah TEPAT dengan komposisi berikut:
+- ${cPG} soal Pilihan Ganda (type: "PG")
+- ${cPGK} soal Pilihan Ganda Kompleks dengan jawaban > 1 (type: "PGK")
+- ${cMJ} soal Menjodohkan (type: "MJ")
+- ${cIS} soal Isian Singkat (type: "ISIAN")
+- ${cUR} soal Uraian analitis (type: "URAIAN")
 
-KEMBALIKAN HANYA ARRAY JSON VALID. Schema Array of Object:
+KEMBALIKAN HANYA ARRAY JSON VALID SEPERTI SKEMA BERIKUT:
 [
   {
     "type": "PG" | "PGK" | "MJ" | "ISIAN" | "URAIAN",
-    "chapter": "Nama Bab Pendek (Maks 3 kata)",
-    "question": "Teks pertanyaan (gunakan narasi jika level menengah/sulit)...",
-    "options": ["Opsi A", "Opsi B", "Opsi C", "Opsi D"], // Wajib minimal 4 opsi untuk PG, PGK, MJ. Kosongkan array untuk ISIAN/URAIAN.
-    "answer": "String jawaban (harus persis dgn teks opsi utk PG/MJ) ATAU Array of strings utk PGK ATAU Kunci Jawaban utk ISIAN/URAIAN",
-    "explanation": "Penjelasan ilmiah/pembahasan lengkap"
+    "chapter": "Nama Bab Pendek",
+    "question": "Teks pertanyaan...",
+    "options": ["Opsi A", "Opsi B", "Opsi C", "Opsi D"], // Min 4 opsi untuk PG, PGK, MJ. KOSONGKAN (array kosong []) untuk ISIAN & URAIAN.
+    "answer": "String persis opsi benar (PG/MJ), ATAU Array of strings (PGK), ATAU Kunci Jawaban Singkat (ISIAN/URAIAN)",
+    "explanation": "Penjelasan konseptual lengkap mengapa jawaban tersebut benar"
   }
 ]`;
             } else {
-                sysPrompt = "Anda adalah sistem penyusun kuis remedial adaptif.";
+                sysPrompt = "Anda adalah sistem penyusun kuis adaptif.";
             }
 
             state.status = 'loading';
@@ -707,7 +687,7 @@ KEMBALIKAN HANYA ARRAY JSON VALID. Schema Array of Object:
 
             try {
                 const generatedQuestions = await fetchGeminiAPI(prompt, sysPrompt, true);
-                if (!Array.isArray(generatedQuestions) || generatedQuestions.length === 0) throw new Error("Format AI tidak berbentuk Array.");
+                if (!Array.isArray(generatedQuestions) || generatedQuestions.length === 0) throw new Error("Format AI tidak berbentuk Array JSON yang valid.");
                 
                 state.questions = generatedQuestions;
                 state.answers = {};
@@ -720,11 +700,11 @@ KEMBALIKAN HANYA ARRAY JSON VALID. Schema Array of Object:
                 console.error(error);
                 state.status = isRemedial ? 'result' : 'setup';
                 saveState(); updateUIBasedOnState();
-                showToast("Gagal Membuat Kuis", error.message, "error");
+                showToast("Gagal Membuat Kuis", "AI gagal merespons dengan benar. Silakan coba klik Generate lagi.", "error");
             }
         }
 
-        /* --- QUIZ PLAYER --- */
+        /* --- QUIZ PLAYER LOGIC --- */
         function formatTypeBadge(type) {
             const m = {
                 'PG': { l: 'Pilihan Ganda', c: 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' },
@@ -763,7 +743,7 @@ KEMBALIKAN HANYA ARRAY JSON VALID. Schema Array of Object:
 
         function renderCurrentQuestion() {
             if (state.questions.length === 0) return resetState();
-            renderNavGrid(); // refresh colors
+            renderNavGrid(); 
 
             const q = state.questions[state.currentIndex];
             const qIndex = state.currentIndex;
@@ -781,7 +761,7 @@ KEMBALIKAN HANYA ARRAY JSON VALID. Schema Array of Object:
             container.innerHTML = '';
 
             if (q.type === 'PG') {
-                q.options.forEach((opt, idx) => {
+                (q.options || []).forEach((opt, idx) => {
                     const isChecked = savedAnswer === opt;
                     const html = `
                         <label class="relative cursor-pointer block">
@@ -798,7 +778,7 @@ KEMBALIKAN HANYA ARRAY JSON VALID. Schema Array of Object:
             } 
             else if (q.type === 'PGK') {
                 const currentArr = Array.isArray(savedAnswer) ? savedAnswer : [];
-                q.options.forEach((opt, idx) => {
+                (q.options || []).forEach((opt, idx) => {
                     const isChecked = currentArr.includes(opt);
                     const html = `
                         <label class="relative cursor-pointer block">
@@ -816,7 +796,7 @@ KEMBALIKAN HANYA ARRAY JSON VALID. Schema Array of Object:
             else if (q.type === 'MJ') {
                 const val = savedAnswer || '';
                 let optsHtml = `<option value="">-- Pilih Pasangan yang Tepat --</option>`;
-                [...q.options].sort().forEach(opt => {
+                [...(q.options || [])].sort().forEach(opt => {
                     optsHtml += `<option value="${opt.replace(/"/g, '&quot;')}" ${val===opt?'selected':''}>${opt}</option>`;
                 });
                 container.innerHTML = `
@@ -879,7 +859,7 @@ KEMBALIKAN HANYA ARRAY JSON VALID. Schema Array of Object:
 
         /* --- EVALUATION LOGIC --- */
         async function submitQuiz() {
-            if(!confirm("Kumpulkan jawaban sekarang? AI akan mulai menilai uraian Anda.")) return;
+            if(!confirm("Kumpulkan jawaban sekarang? AI akan mulai menilai uraian & isian Anda.")) return;
 
             state.status = 'loading';
             document.getElementById('loading-title').innerText = "AI Sedang Melakukan Penilaian...";
@@ -927,17 +907,28 @@ KEMBALIKAN HANYA ARRAY JSON VALID. Schema Array of Object:
 
                 // Step 3: API Call for Subjective
                 if (itemsToAiEval.length > 0) {
-                    const pText = `Evaluasi semantik atas jawaban siswa.
-Data JSON:
+                    const pText = `Evaluasi semantik atas jawaban siswa berikut (Skor 0-100) berdasarkan kedekatan dengan target.
+Data JSON Soal dan Jawaban:
 ${JSON.stringify(itemsToAiEval)}
 
-Kembalikan ARRAY JSON SAJA. Skema:
-[ { "index": (number id asli), "score": (0-100), "feedback": (1 kalimat pendek mengapa dinilai demikian) } ]`;
-                    const aiRes = await fetchGeminiAPI(pText, "Anda pemeriksa ujian.", true);
-                    aiRes.forEach(ev => {
-                        const orig = itemsToAiEval.find(i => i.index === ev.index);
-                        tempResults.push({ index: ev.index, score: ev.score||0, userAnswer: orig.user_answer || '-', feedback: ev.feedback });
-                    });
+Kembalikan ARRAY JSON SAJA dengan skema:
+[ { "index": (number id asli), "score": (number 0-100), "feedback": (string ulasan mengapa dinilai demikian) } ]`;
+                    
+                    try {
+                        const aiRes = await fetchGeminiAPI(pText, "Anda pemeriksa ujian.", true);
+                        aiRes.forEach(ev => {
+                            const orig = itemsToAiEval.find(i => i.index === ev.index);
+                            if(orig) {
+                                tempResults.push({ index: ev.index, score: ev.score||0, userAnswer: orig.user_answer || '-', feedback: ev.feedback });
+                            }
+                        });
+                    } catch (aiErr) {
+                        console.error("AI grading failed", aiErr);
+                        // Fallback
+                        itemsToAiEval.forEach(orig => {
+                            tempResults.push({ index: orig.index, score: 0, userAnswer: orig.user_answer || '-', feedback: "Gagal dinilai otomatis oleh AI." });
+                        });
+                    }
                 }
 
                 // Step 4: Finalize
@@ -948,7 +939,7 @@ Kembalikan ARRAY JSON SAJA. Skema:
                 tempResults.forEach((res, idx) => {
                     totalScore += res.score;
                     const c = state.questions[idx].chapter || 'Umum';
-                    if(res.score >= 80) state.chapterAnalysis[c].correct++; // Threshold for mastery
+                    if(res.score >= 80) state.chapterAnalysis[c].correct++;
                 });
                 
                 state.score = Math.round(totalScore / state.questions.length);
@@ -959,13 +950,12 @@ Kembalikan ARRAY JSON SAJA. Skema:
                 console.error(error);
                 state.status = 'playing';
                 saveState(); updateUIBasedOnState();
-                showToast("Gagal Menilai", "Coba kumpulkan lagi. " + error.message, "error");
+                showToast("Gagal Menilai", "Silakan kumpulkan ulang. " + error.message, "error");
             }
         }
 
         /* --- RESULTS UI --- */
         function renderResultsUI() {
-            // Score anim
             const el = document.getElementById('final-score');
             const target = state.score;
             let curr = 0;
@@ -995,7 +985,6 @@ Kembalikan ARRAY JSON SAJA. Skema:
                     </div>`;
             });
 
-            // Reset Filter UI
             filterReview('all');
         }
 
@@ -1018,7 +1007,7 @@ Kembalikan ARRAY JSON SAJA. Skema:
 
             state.questions.forEach((q, idx) => {
                 const res = state.results[idx];
-                if (type === 'wrong' && res.score >= 80) return; // skip good answers
+                if (type === 'wrong' && res.score >= 80) return;
 
                 const isGood = res.score >= 80;
                 let bColor = isGood ? 'border-emerald-500' : 'border-rose-500';
@@ -1047,8 +1036,8 @@ Kembalikan ARRAY JSON SAJA. Skema:
                         <div class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg flex gap-3">
                             <i class="ph-fill ph-lightbulb text-amber-500 text-lg shrink-0"></i>
                             <div>
-                                <span class="font-bold block mb-1">Pembahasan AI:</span>
-                                <div>${res.feedback} <br><br> ${q.explanation}</div>
+                                <span class="font-bold block mb-1">Pembahasan & Feedback:</span>
+                                <div><strong>Evaluasi:</strong> ${res.feedback} <br><strong>Konsep:</strong> ${q.explanation}</div>
                             </div>
                         </div>
                     </div>`;
@@ -1092,7 +1081,8 @@ Kembalikan ARRAY JSON SAJA. Skema:
                 showToast("Sempurna", "Anda tidak memiliki bab lemah untuk diremedial!", "info"); return;
             }
             
-            const prompt = `Buatkan 5 soal Pilihan Ganda (PG) fokus HANYA pada bab lemah ini: ${weak.join(', ')}. Format JSON array persis seperti awal.`;
+            const prompt = `Topik Remedial: ${weak.join(', ')}.
+Buatkan TEPAT 5 soal Pilihan Ganda (type: "PG") fokus pada bab-bab tersebut. Format array JSON murni seperti awal.`;
             await startQuizGeneration(true, prompt);
         }
 
@@ -1149,12 +1139,10 @@ Kembalikan ARRAY JSON SAJA. Skema:
             }
         }
 
-        // Simple Markdown to HTML bold parser
         function markedToHtml(text) {
             return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
         }
 
-        // Init
         window.onload = loadState;
     </script>
 </body>
