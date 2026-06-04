@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genius AI - Kuis Adaptif & Evaluasi</title>
+    <title>Kuis Cerdas AI - Bank Soal & Evaluasi</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
@@ -22,8 +22,9 @@
                     },
                     animation: {
                         'blob': 'blob 7s infinite',
-                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'fade-in': 'fadeIn 0.4s ease-out forwards',
                         'slide-up': 'slideUp 0.4s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         blob: {
@@ -41,12 +42,12 @@
     </script>
     <style>
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px;}
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
         
-        /* Glassmorphism utility */
+        /* Glassmorphism */
         .glass {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
@@ -58,7 +59,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Checkbox & Radio Customization */
+        /* Checkbox & Radio */
         .custom-radio:checked + div { border-color: #3b82f6; background-color: #eff6ff; }
         .dark .custom-radio:checked + div { border-color: #60a5fa; background-color: rgba(59, 130, 246, 0.2); }
         .custom-radio:checked + div .radio-inner { transform: scale(1); opacity: 1; }
@@ -67,13 +68,18 @@
         .dark .custom-checkbox:checked + div { border-color: #60a5fa; background-color: rgba(59, 130, 246, 0.2); }
         .custom-checkbox:checked + div .check-icon { opacity: 1; transform: scale(1); }
 
-        /* Screens */
-        .screen { display: none; }
-        .screen.active { display: block; animation: fadeIn 0.4s ease-out forwards; }
+        /* BUG FIX: Strict Screen Display Control */
+        .app-screen { display: none !important; }
+        .app-screen.active { 
+            display: flex !important; 
+            flex-direction: column; 
+            animation: fadeIn 0.4s ease-out forwards; 
+        }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 min-h-screen transition-colors duration-300 overflow-x-hidden flex flex-col">
 
+    <!-- Animated Background -->
     <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
         <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary-300 dark:bg-primary-900 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-50 animate-blob"></div>
         <div class="absolute top-[-10%] right-[-10%] w-96 h-96 bg-purple-300 dark:bg-purple-900 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
@@ -82,26 +88,29 @@
 
     <!-- Navbar -->
     <nav class="fixed top-0 w-full z-40 glass border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="confirmReset()">
-                <div class="bg-primary-600 text-white p-2 rounded-lg shadow-lg shadow-primary-500/30">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer group" onclick="goHome()">
+                <div class="bg-gradient-to-br from-primary-500 to-purple-600 text-white p-2 rounded-lg group-hover:scale-105 transition-transform shadow-md">
                     <i class="ph-bold ph-brain text-xl"></i>
                 </div>
-                <div>
-                    <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-purple-600 dark:from-primary-400 dark:to-purple-400 leading-tight">
-                        GeniusAI
-                    </h1>
-                    <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest block leading-none">Adaptive Mastery</span>
-                </div>
+                <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-purple-600 dark:from-primary-400 dark:to-purple-400 hidden sm:block">
+                    GeniusAI
+                </h1>
             </div>
             <div class="flex items-center gap-1 sm:gap-2">
-                <button onclick="downloadHtml()" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300" title="Unduh File HTML">
+                <button onclick="goHome()" class="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300" title="Beranda">
+                    <i class="ph-bold ph-house text-xl"></i>
+                </button>
+                <button onclick="openHistory()" class="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300" title="Riwayat & Bank Soal">
+                    <i class="ph-bold ph-clock-counter-clockwise text-xl"></i>
+                </button>
+                <button onclick="downloadHtml()" class="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300" title="Unduh File HTML">
                     <i class="ph-bold ph-download-simple text-xl"></i>
                 </button>
-                <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300" title="Ganti Tema">
+                <button onclick="toggleTheme()" class="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300" title="Ganti Tema">
                     <i id="theme-icon" class="ph-bold ph-moon text-xl"></i>
                 </button>
-                <button onclick="openApiModal()" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300" title="Pengaturan API Key">
+                <button onclick="openApiModal()" class="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-600 dark:text-slate-300" title="Pengaturan API">
                     <i class="ph-bold ph-gear text-xl"></i>
                 </button>
             </div>
@@ -109,410 +118,323 @@
     </nav>
 
     <!-- Main Container -->
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-12 flex-grow flex flex-col justify-center w-full">
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-12 flex-grow w-full flex flex-col relative z-10">
         
         <!-- SCREEN 1: SETUP -->
-        <div id="screen-setup" class="screen active w-full">
-            <div class="glass rounded-3xl p-6 sm:p-8 shadow-xl animate-slide-up border border-white/50 dark:border-slate-700/50">
+        <div id="screen-setup" class="app-screen w-full">
+            <div class="glass rounded-3xl p-6 sm:p-8 shadow-xl">
                 <div class="text-center mb-8">
-                    <h2 class="text-3xl font-extrabold mb-2">Rancang Kuis Adaptif</h2>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm">Tempelkan kisi-kisi atau materi lengkap, tentukan komposisi soal, dan biarkan AI menyusunnya.</p>
+                    <h2 class="text-3xl font-bold mb-2">Buat Kuis Baru</h2>
+                    <p class="text-slate-500 dark:text-slate-400">Atur kuis sesuai kisi-kisi atau topik pilihanmu.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Kiri: Topik & Materi -->
-                    <div class="space-y-5">
-                        <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700 pb-2 flex items-center gap-2">
-                            <i class="ph-bold ph-book-open text-primary-500"></i> Sumber Materi
-                        </h3>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Kisi-kisi / Silabus Lengkap</label>
-                            <textarea id="setup-topic" rows="8" placeholder="Contoh:&#10;Bab 1: Fotosintesis (Reaksi terang & gelap)&#10;Bab 2: Respirasi Seluler&#10;Bab 3: Sintesis Protein...&#10;&#10;*Semakin detail kisi-kisi Anda, semakin akurat soal yang dibuat AI." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 focus:bg-white dark:focus:bg-slate-800 focus:ring-2 focus:ring-primary-500 outline-none transition-all resize-y text-sm leading-relaxed"></textarea>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold mb-2">Tingkat Kesulitan & Gaya Bahasa</label>
-                            <select id="setup-difficulty" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 focus:ring-2 focus:ring-primary-500 outline-none transition-all appearance-none cursor-pointer text-sm font-medium">
-                                <option value="Mudah">Mudah (Fokus Hafalan Dasar & Konsep)</option>
-                                <option value="Sedang">Sedang (Pemahaman & Aplikasi Konsep)</option>
-                                <option value="Menengah" selected>Menengah (Studi Kasus & HOTS Dasar)</option>
-                                <option value="Sulit">Sulit (Full HOTS, Analisis Kritis, Skenario Kompleks)</option>
-                            </select>
-                        </div>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Topik / Kisi-Kisi Soal</label>
+                        <textarea id="setup-topic" rows="4" placeholder="Tempelkan kisi-kisi panjang, silabus, atau daftar materi di sini..." class="w-full px-5 py-4 rounded-xl border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 focus:ring-2 focus:ring-primary-500 outline-none transition-all resize-y"></textarea>
                     </div>
 
-                    <!-- Kanan: Distribusi Soal -->
-                    <div class="space-y-5">
-                        <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700 pb-2 flex items-center gap-2">
-                            <i class="ph-bold ph-faders text-primary-500"></i> Distribusi Jenis Soal
-                        </h3>
-                        
-                        <div class="space-y-3">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Tingkat Kesulitan</label>
+                        <select id="setup-difficulty" class="w-full px-5 py-4 rounded-xl border border-slate-300 dark:border-slate-600 bg-white/50 dark:bg-slate-800/50 focus:ring-2 focus:ring-primary-500 outline-none transition-all appearance-none cursor-pointer font-medium">
+                            <option value="Mudah">Mudah (Pemahaman Dasar)</option>
+                            <option value="Sedang" selected>Sedang (Penerapan & Analisis Dasar)</option>
+                            <option value="Menengah">Menengah (Studi Kasus & HOTS Dasar)</option>
+                            <option value="Sulit">Sulit (HOTS & Pemecahan Masalah Kompleks)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-3">Tentukan Jumlah Per Tipe Soal</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             <!-- PG -->
-                            <div class="flex items-center justify-between p-3 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 hover:border-blue-400 transition-colors">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400 flex items-center justify-center font-bold">PG</div>
-                                    <div>
-                                        <div class="text-sm font-bold">Pilihan Ganda</div>
-                                        <div class="text-[10px] text-slate-500">Pilih 1 jawaban benar</div>
-                                    </div>
+                            <div class="bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-4 rounded-xl flex items-center justify-between shadow-sm hover:border-primary-300 transition-colors">
+                                <div>
+                                    <h4 class="font-bold text-sm">Pilihan Ganda</h4>
                                 </div>
-                                <input type="number" id="count-pg" min="0" max="30" value="5" class="w-16 px-2 py-1.5 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 focus:ring-2 focus:ring-blue-500 outline-none font-bold">
+                                <input type="number" id="count-pg" min="0" value="5" class="w-20 px-3 py-2 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-bold">
                             </div>
-
-                            <!-- PGK -->
-                            <div class="flex items-center justify-between p-3 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 hover:border-purple-400 transition-colors">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-400 flex items-center justify-center font-bold">PK</div>
-                                    <div>
-                                        <div class="text-sm font-bold">PG Kompleks</div>
-                                        <div class="text-[10px] text-slate-500">Jawaban benar > 1</div>
-                                    </div>
+                            <!-- PG Kompleks -->
+                            <div class="bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-4 rounded-xl flex items-center justify-between shadow-sm hover:border-primary-300 transition-colors">
+                                <div>
+                                    <h4 class="font-bold text-sm">PG Kompleks</h4>
+                                    <p class="text-[10px] text-slate-500">Jawaban >1</p>
                                 </div>
-                                <input type="number" id="count-pgk" min="0" max="15" value="2" class="w-16 px-2 py-1.5 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 focus:ring-2 focus:ring-purple-500 outline-none font-bold">
+                                <input type="number" id="count-pgk" min="0" value="0" class="w-20 px-3 py-2 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-bold">
                             </div>
-
-                            <!-- MJ -->
-                            <div class="flex items-center justify-between p-3 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 hover:border-indigo-400 transition-colors">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400 flex items-center justify-center font-bold">MJ</div>
-                                    <div>
-                                        <div class="text-sm font-bold">Menjodohkan</div>
-                                        <div class="text-[10px] text-slate-500">Pilih pasangan via dropdown</div>
-                                    </div>
+                            <!-- Menjodohkan -->
+                            <div class="bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-4 rounded-xl flex items-center justify-between shadow-sm hover:border-primary-300 transition-colors">
+                                <div>
+                                    <h4 class="font-bold text-sm">Menjodohkan</h4>
                                 </div>
-                                <input type="number" id="count-mj" min="0" max="15" value="0" class="w-16 px-2 py-1.5 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none font-bold">
+                                <input type="number" id="count-jodohkan" min="0" value="0" class="w-20 px-3 py-2 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-bold">
                             </div>
-
-                            <!-- ISIAN -->
-                            <div class="flex items-center justify-between p-3 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 hover:border-amber-400 transition-colors">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-900/50 dark:text-amber-400 flex items-center justify-center font-bold">IS</div>
-                                    <div>
-                                        <div class="text-sm font-bold">Isian Singkat</div>
-                                        <div class="text-[10px] text-slate-500">Jawaban pendek (dinilai AI)</div>
-                                    </div>
+                            <!-- Isian -->
+                            <div class="bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-4 rounded-xl flex items-center justify-between shadow-sm hover:border-primary-300 transition-colors">
+                                <div>
+                                    <h4 class="font-bold text-sm">Isian Singkat</h4>
                                 </div>
-                                <input type="number" id="count-isian" min="0" max="10" value="2" class="w-16 px-2 py-1.5 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 focus:ring-2 focus:ring-amber-500 outline-none font-bold">
+                                <input type="number" id="count-isian" min="0" value="0" class="w-20 px-3 py-2 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-bold">
                             </div>
-
-                            <!-- URAIAN -->
-                            <div class="flex items-center justify-between p-3 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 hover:border-rose-400 transition-colors">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-900/50 dark:text-rose-400 flex items-center justify-center font-bold">UR</div>
-                                    <div>
-                                        <div class="text-sm font-bold">Uraian / Essay</div>
-                                        <div class="text-[10px] text-slate-500">Analisis panjang (dinilai AI)</div>
-                                    </div>
+                            <!-- Uraian -->
+                            <div class="bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-4 rounded-xl flex items-center justify-between shadow-sm lg:col-span-2 hover:border-primary-300 transition-colors">
+                                <div>
+                                    <h4 class="font-bold text-sm">Uraian / Essay</h4>
+                                    <p class="text-[10px] text-slate-500">Koreksi otomatis oleh AI</p>
                                 </div>
-                                <input type="number" id="count-uraian" min="0" max="5" value="1" class="w-16 px-2 py-1.5 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 focus:ring-2 focus:ring-rose-500 outline-none font-bold">
+                                <input type="number" id="count-uraian" min="0" value="0" class="w-20 px-3 py-2 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-bold">
                             </div>
-                        </div>
-
-                        <div class="pt-4 border-t border-slate-200 dark:border-slate-700">
-                            <button onclick="startQuizGeneration()" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg shadow-primary-500/30 flex items-center justify-center gap-2 group">
-                                <i class="ph-bold ph-magic-wand text-xl"></i>
-                                <span>Generate & Mulai Kuis</span>
-                                <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                            </button>
                         </div>
                     </div>
+
+                    <button onclick="startQuizGeneration()" class="w-full bg-gradient-to-r from-primary-600 to-purple-600 hover:from-primary-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg shadow-primary-500/30 flex items-center justify-center gap-2 group mt-6">
+                        <span>Generate & Mulai Kuis</span>
+                        <i class="ph-bold ph-magic-wand group-hover:rotate-12 transition-transform text-xl"></i>
+                    </button>
                 </div>
             </div>
         </div>
 
         <!-- SCREEN 2: LOADING -->
-        <div id="screen-loading" class="screen w-full flex flex-col items-center justify-center py-20">
-            <div class="relative w-24 h-24 mb-8">
+        <div id="screen-loading" class="app-screen items-center justify-center py-32 w-full">
+            <div class="relative w-28 h-28 mb-8">
                 <div class="absolute inset-0 border-4 border-slate-200 dark:border-slate-700 rounded-full"></div>
                 <div class="absolute inset-0 border-4 border-primary-500 rounded-full border-t-transparent animate-spin"></div>
-                <div class="absolute inset-0 flex items-center justify-center text-primary-500">
-                    <i class="ph-fill ph-brain text-4xl animate-pulse"></i>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <i class="ph-fill ph-brain text-4xl text-primary-500 animate-pulse-slow"></i>
                 </div>
             </div>
-            <h3 class="text-2xl font-bold mb-3 text-center" id="loading-title">AI Sedang Meracik Soal...</h3>
-            <p class="text-slate-500 dark:text-slate-400 text-center max-w-md mb-6 leading-relaxed" id="loading-desc">Menganalisis kisi-kisi dan merumuskan soal yang menantang sesuai spesifikasi Anda.</p>
-            <div class="w-full max-w-md px-4">
-                <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                    <div class="h-full bg-primary-500 w-1/2 animate-pulse rounded-full"></div>
-                </div>
-            </div>
+            <h3 class="text-3xl font-bold mb-3 text-center" id="loading-title">AI Sedang Bekerja...</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-center max-w-md text-lg" id="loading-desc">Memproses permintaan Anda.</p>
         </div>
 
         <!-- SCREEN 3: QUIZ PLAYER -->
-        <div id="screen-quiz" class="screen w-full">
-            <div class="flex flex-col lg:flex-row gap-6">
-                <!-- Kiri: Status & Navigasi -->
-                <div class="w-full lg:w-72 shrink-0 space-y-4">
-                    <div class="glass rounded-2xl p-5 shadow-sm">
-                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex justify-between items-center">
-                            <span>Peta Soal</span>
-                            <span id="quiz-progress-text" class="text-primary-600 dark:text-primary-400">1/10</span>
-                        </div>
-                        <div class="grid grid-cols-5 sm:grid-cols-10 lg:grid-cols-5 gap-2 max-h-48 lg:max-h-80 overflow-y-auto custom-scrollbar pr-1" id="question-nav-grid">
-                            <!-- Nav buttons injected here -->
-                        </div>
-                    </div>
+        <div id="screen-quiz" class="app-screen w-full">
+            
+            <div class="flex justify-between items-end mb-4 px-2">
+                <div>
+                    <h2 class="text-xl font-bold line-clamp-1" id="quiz-header-topic">Topik Kuis</h2>
+                </div>
+                <button onclick="saveAndExit()" class="text-sm font-semibold text-slate-500 hover:text-primary-600 transition-colors flex items-center gap-1 shrink-0">
+                    <i class="ph-bold ph-floppy-disk"></i> Simpan & Keluar
+                </button>
+            </div>
 
-                    <!-- AI Helper Widget -->
-                    <div class="glass rounded-2xl p-5 shadow-sm bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-900/20 dark:to-fuchsia-900/20 border-violet-100 dark:border-violet-800/30">
-                        <div class="flex items-start gap-3">
-                            <i class="ph-fill ph-robot text-2xl text-violet-600 dark:text-violet-400"></i>
-                            <div>
-                                <h4 class="font-bold text-sm text-violet-900 dark:text-violet-300">Tutor AI</h4>
-                                <p class="text-[10px] text-violet-700/70 dark:text-violet-400/70 leading-tight mb-2 mt-1">Bingung dengan konsep soal ini? Tanyakan pada AI.</p>
-                                <button onclick="openAIChatModal()" class="w-full py-2 bg-white dark:bg-slate-800 text-violet-700 dark:text-violet-300 text-xs font-bold rounded-lg shadow-sm hover:shadow transition-all border border-violet-100 dark:border-violet-700/50">
-                                    Tanya Konsep Dasar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+            <div class="glass rounded-xl p-4 mb-6 shadow-sm flex items-center gap-4">
+                <div class="text-sm font-bold whitespace-nowrap min-w-[80px] bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg" id="quiz-progress-text">1/5</div>
+                <div class="w-full h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                    <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-primary-500 to-purple-500 w-0 transition-all duration-500 rounded-full"></div>
+                </div>
+            </div>
+
+            <div class="glass rounded-3xl p-6 sm:p-8 shadow-xl min-h-[400px] flex flex-col relative overflow-hidden" id="question-card">
+                
+                <div class="flex justify-between items-start mb-6">
+                    <span id="question-badge" class="px-4 py-1.5 bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300 rounded-lg text-xs font-extrabold uppercase tracking-widest border border-primary-200 dark:border-primary-800">
+                        Pilihan Ganda
+                    </span>
                 </div>
 
-                <!-- Kanan: Area Soal -->
-                <div class="flex-grow flex flex-col h-full min-h-[500px]">
-                    <div class="glass rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col animate-slide-up flex-grow relative border border-white/50 dark:border-slate-700/50">
-                        
-                        <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-200 dark:border-slate-700/50">
-                            <div class="flex items-center gap-3">
-                                <span id="question-type-badge" class="px-3 py-1 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-wider">Tipe</span>
-                                <span id="question-chapter-badge" class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] sm:text-xs font-semibold truncate max-w-[150px] sm:max-w-xs" title="Bab">Bab</span>
-                            </div>
-                        </div>
+                <div class="flex gap-4 items-start mb-8">
+                    <span class="text-2xl sm:text-3xl font-black text-slate-300 dark:text-slate-600 mt-1 shrink-0" id="question-number-display">Q1.</span>
+                    <h3 id="question-text" class="text-xl sm:text-2xl font-semibold leading-relaxed">
+                        Loading question...
+                    </h3>
+                </div>
 
-                        <div class="flex-grow flex flex-col">
-                            <h3 id="question-text" class="text-lg sm:text-xl font-semibold mb-8 leading-relaxed prose dark:prose-invert max-w-none">
-                                Memuat pertanyaan...
-                            </h3>
-                            <!-- Input Area -->
-                            <div id="options-container" class="space-y-3 flex-grow">
-                                <!-- Options injected via JS -->
-                            </div>
-                        </div>
+                <div id="options-container" class="space-y-4 flex-grow w-full">
+                    <!-- Options injected via JS -->
+                </div>
 
-                        <div class="flex items-center justify-between mt-8 pt-6 border-t border-slate-200 dark:border-slate-700/50">
-                            <button id="btn-prev" onclick="prevQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors font-semibold flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
-                                <i class="ph-bold ph-arrow-left"></i> <span class="hidden sm:inline">Sebelumnya</span>
-                            </button>
-                            <button id="btn-next" onclick="nextQuestion()" class="px-6 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white transition-colors font-bold flex items-center gap-2 text-sm shadow-md shadow-primary-500/20">
-                                Selanjutnya <i class="ph-bold ph-arrow-right"></i>
-                            </button>
-                            <button id="btn-submit" onclick="submitQuiz()" class="hidden px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition-colors font-bold flex items-center gap-2 text-sm shadow-md shadow-emerald-500/20">
-                                Selesai & Nilai <i class="ph-bold ph-check-circle"></i>
-                            </button>
-                        </div>
-                    </div>
+                <div class="flex items-center justify-between mt-12 pt-6 border-t border-slate-200 dark:border-slate-700">
+                    <button id="btn-prev" onclick="prevQuestion()" class="px-6 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors font-bold flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                        <i class="ph-bold ph-arrow-left"></i> Kembali
+                    </button>
+                    <button id="btn-next" onclick="nextQuestion()" class="px-8 py-3.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white transition-colors font-bold flex items-center gap-2 shadow-lg shadow-primary-500/20">
+                        Lanjut <i class="ph-bold ph-arrow-right"></i>
+                    </button>
+                    <button id="btn-submit" onclick="submitQuiz()" class="hidden px-8 py-3.5 rounded-xl bg-green-600 hover:bg-green-700 text-white transition-colors font-bold flex items-center gap-2 shadow-lg shadow-green-500/20">
+                        Kumpulkan Kuis <i class="ph-bold ph-check-circle"></i>
+                    </button>
                 </div>
             </div>
         </div>
 
         <!-- SCREEN 4: RESULTS -->
-        <div id="screen-result" class="screen w-full">
-            <!-- Header Score -->
-            <div class="glass rounded-3xl p-8 shadow-xl animate-slide-up text-center mb-8 border border-white/50 dark:border-slate-700/50 relative overflow-hidden">
-                <i class="ph-fill ph-confetti absolute -top-4 -left-4 text-8xl text-yellow-400/20 rotate-12"></i>
-                <i class="ph-fill ph-trophy absolute -bottom-4 -right-4 text-8xl text-primary-400/20 -rotate-12"></i>
-                
-                <h2 class="text-3xl font-extrabold mb-2 relative z-10">Laporan Evaluasi AI</h2>
-                <p class="text-slate-500 dark:text-slate-400 mb-8 relative z-10">Koreksi otomatis dan evaluasi semantik AI telah selesai.</p>
-                
-                <div class="flex justify-center items-center gap-8 relative z-10">
-                    <div class="text-center">
-                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Skor Akhir</div>
-                        <div class="inline-flex flex-col items-center justify-center w-32 h-32 rounded-full border-8 border-primary-100 dark:border-primary-900/50 bg-white dark:bg-slate-800 shadow-inner">
-                            <span class="text-4xl font-black text-primary-600 dark:text-primary-400" id="final-score">0</span>
-                        </div>
-                    </div>
+        <div id="screen-result" class="app-screen w-full">
+            <div class="glass rounded-3xl p-6 sm:p-10 shadow-xl text-center mb-8 relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 text-9xl text-primary-500/10 dark:text-primary-400/5 rotate-12 pointer-events-none">
+                    <i class="ph-fill ph-medal"></i>
                 </div>
-            </div>
-
-            <!-- Analisis Bab -->
-            <div class="glass rounded-3xl p-6 sm:p-8 shadow-xl mb-8 border border-white/50 dark:border-slate-700/50">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                    <div>
-                        <h3 class="text-xl font-bold flex items-center gap-2">
-                            <i class="ph-fill ph-chart-pie-slice text-primary-500"></i> Analisis Penguasaan Bab
-                        </h3>
-                        <p class="text-xs text-slate-500 mt-1">Identifikasi materi kelemahan Anda berdasarkan hasil kuis.</p>
-                    </div>
-                    <button onclick="generateRangkumanAI()" class="px-4 py-2 bg-gradient-to-r from-violet-600 to-primary-600 text-white text-xs font-bold rounded-xl shadow-md flex items-center gap-2 hover:opacity-90 transition-opacity">
-                        <i class="ph-bold ph-magic-wand"></i> Buat Rangkuman AI
+                
+                <h2 class="text-3xl font-black mb-2 relative z-10">Kuis Selesai!</h2>
+                <p class="text-slate-500 dark:text-slate-400 mb-8 relative z-10">Hasil evaluasi lokal dan AI.</p>
+                
+                <div class="inline-flex flex-col items-center justify-center w-48 h-48 rounded-full border-[12px] border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 mb-8 shadow-inner relative z-10">
+                    <span class="text-6xl font-black text-primary-600 dark:text-primary-400 drop-shadow-sm" id="final-score">0</span>
+                    <span class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-1">Skor Akhir</span>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4 relative z-10">
+                    <button onclick="goHome()" class="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors font-bold flex items-center gap-2">
+                        <i class="ph-bold ph-house"></i> Halaman Utama
+                    </button>
+                    <button id="btn-ai-analysis" onclick="generateAnalysis()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary-600 to-purple-600 hover:from-primary-700 hover:to-purple-700 text-white transition-all shadow-lg font-bold flex items-center gap-2">
+                        <i class="ph-bold ph-magic-wand"></i> Rangkuman & Analisis AI
                     </button>
                 </div>
-                
-                <div id="chapter-analysis-container" class="space-y-4">
-                    <!-- Progress bars injected here -->
-                </div>
+            </div>
 
-                <!-- Box Rangkuman AI -->
-                <div id="ai-summary-box" class="hidden mt-6 p-5 rounded-2xl bg-violet-50/80 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700/50">
-                    <h4 class="font-bold text-violet-900 dark:text-violet-300 text-sm mb-3 flex items-center gap-2">
-                        <i class="ph-fill ph-book-open"></i> Modul Belajar Kustom AI
-                    </h4>
-                    <div id="ai-summary-content" class="text-sm text-slate-700 dark:text-slate-300 prose dark:prose-invert max-w-none leading-relaxed">
-                        Sedang menyusun rangkuman khusus untuk area kelemahan Anda...
+            <div id="ai-analysis-container" class="hidden glass rounded-3xl p-6 sm:p-8 shadow-xl mb-8 border-2 border-purple-500/30">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/50 rounded-xl flex items-center justify-center text-purple-600 dark:text-purple-400">
+                        <i class="ph-bold ph-student text-2xl"></i>
                     </div>
-                    <div class="mt-4 pt-4 border-t border-violet-200 dark:border-violet-700/50 text-right">
-                        <button onclick="generateRemedialQuiz()" class="px-5 py-2.5 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl text-xs shadow-md transition-all flex items-center justify-end gap-2 inline-flex">
-                            Mulai Kuis Adaptif (Fokus Kelemahan) <i class="ph-bold ph-arrow-circle-right"></i>
-                        </button>
-                    </div>
+                    <h3 class="text-2xl font-bold">Laporan & Rangkuman AI</h3>
+                </div>
+                <div id="ai-analysis-content" class="prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <!-- AI summary injected here -->
                 </div>
             </div>
 
-            <!-- Detail Jawaban -->
-            <div class="flex items-center justify-between mb-4 mt-10">
-                <h3 class="text-xl font-bold">Review & Pembahasan Detail</h3>
-                <div class="flex gap-2">
-                    <button onclick="filterReview('all')" id="btn-filter-all" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-800 transition-colors">Semua</button>
-                    <button onclick="filterReview('wrong')" id="btn-filter-wrong" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-200 text-slate-600 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-400 transition-colors">Salah</button>
-                </div>
+            <div class="mb-6 flex items-center gap-2">
+                <i class="ph-fill ph-list-checks text-2xl text-primary-500"></i>
+                <h3 class="text-2xl font-bold">Pembahasan Jawaban</h3>
             </div>
             
             <div id="results-container" class="space-y-6">
                 <!-- Results injected via JS -->
             </div>
+        </div>
 
-            <div class="mt-12 text-center pb-8">
-                <button onclick="confirmReset()" class="px-8 py-4 rounded-xl border-2 border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2 mx-auto">
-                    <i class="ph-bold ph-arrow-counter-clockwise text-xl"></i> Buat Kuis Baru
+        <!-- SCREEN 5: HISTORY (Bank Soal) -->
+        <div id="screen-history" class="app-screen w-full">
+            <div class="glass rounded-3xl p-6 sm:p-8 shadow-xl mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold mb-2 flex items-center gap-3">
+                        <i class="ph-fill ph-books text-primary-500"></i> Bank Soal & Riwayat
+                    </h2>
+                    <p class="text-slate-500 dark:text-slate-400">Daftar kuis yang tersimpan di perangkat ini.</p>
+                </div>
+                <button onclick="goHome()" class="px-6 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold transition-all shadow-lg shadow-primary-500/20">
+                    <i class="ph-bold ph-plus"></i> Buat Kuis Baru
                 </button>
             </div>
+
+            <div id="history-container" class="grid grid-cols-1 gap-4">
+                <!-- History cards injected here -->
+            </div>
         </div>
+
     </main>
 
-    <!-- Modal AI Tutor Chat -->
-    <div id="ai-chat-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 p-4">
-        <div class="bg-white dark:bg-slate-900 rounded-3xl p-0 w-full max-w-xl shadow-2xl transform scale-95 transition-transform duration-300 overflow-hidden flex flex-col max-h-[85vh] border border-slate-200 dark:border-slate-700" id="ai-chat-content">
-            <div class="flex justify-between items-center p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 bg-violet-50 dark:bg-violet-900/20">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-violet-200 text-violet-700 dark:bg-violet-800 dark:text-violet-300 flex items-center justify-center text-xl">
-                        <i class="ph-fill ph-robot"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-slate-800 dark:text-slate-200 leading-tight">Tutor AI</h3>
-                        <p class="text-[10px] text-slate-500 font-medium">Asisten Pemahaman Konsep</p>
-                    </div>
-                </div>
-                <button onclick="closeAIChatModal()" class="w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800">
-                    <i class="ph-bold ph-x"></i>
-                </button>
-            </div>
-            
-            <div class="flex-grow overflow-y-auto p-4 sm:p-5 space-y-4 bg-slate-50 dark:bg-slate-900/50 custom-scrollbar" id="ai-chat-history">
-                <!-- Chat Bubbles -->
-            </div>
-
-            <div class="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
-                <div class="flex gap-2 mb-2" id="ai-suggested-questions"></div>
-                <div class="flex gap-2">
-                    <input type="text" id="ai-user-query" placeholder="Tanyakan konsep..." class="flex-grow px-4 py-3 bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-violet-500 rounded-xl text-sm outline-none transition-colors">
-                    <button onclick="sendAIChat()" class="bg-violet-600 hover:bg-violet-700 text-white px-5 py-3 rounded-xl shadow-md transition-all flex items-center gap-2 shrink-0">
-                        <i class="ph-bold ph-paper-plane-right"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal API Key -->
-    <div id="api-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 p-4">
-        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl transform scale-95 transition-transform duration-300 border border-slate-200 dark:border-slate-700" id="api-modal-content">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold flex items-center gap-2">
-                    <i class="ph-fill ph-key text-primary-500"></i> Pengaturan API
+    <div id="api-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300 p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 w-full max-w-md shadow-2xl transform scale-95 transition-transform duration-300" id="api-modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold flex items-center gap-2">
+                    <i class="ph-fill ph-key text-primary-500"></i> API Key
                 </h3>
                 <button onclick="closeApiModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                     <i class="ph-bold ph-x text-xl"></i>
                 </button>
             </div>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Aplikasi ini membutuhkan API Key dari Gemini (Google AI Studio) untuk meracik soal dan mengevaluasi esai.</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Agar AI dapat meracik soal dan mengoreksi essay, masukkan API Key Google Gemini Anda.</p>
             
-            <div class="space-y-4">
+            <div class="space-y-5">
                 <div>
-                    <input type="password" id="api-key-input" placeholder="AIzaSy..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-mono">
+                    <input type="password" id="api-key-input" placeholder="AIzaSy..." class="w-full px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:border-primary-500 focus:ring-0 outline-none font-mono text-sm transition-colors">
                 </div>
-                <div class="text-[11px] text-slate-500 p-3 bg-slate-100 dark:bg-slate-700/50 rounded-lg">
-                    Key disimpan aman secara lokal. Dapatkan key gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-primary-500 font-bold hover:underline">Google AI Studio</a>.
+                <div class="text-xs text-slate-600 dark:text-slate-400 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800/50 flex gap-3">
+                    <i class="ph-fill ph-info text-blue-500 text-lg shrink-0"></i>
+                    <p>Key disimpan aman 100% secara lokal di browser Anda. Dapatkan gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-primary-600 dark:text-primary-400 font-bold hover:underline">Google AI Studio</a>.</p>
                 </div>
-                <button onclick="saveApiKey()" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md">
-                    Simpan & Terapkan
+                <button onclick="saveApiKey()" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 px-4 rounded-xl hover:opacity-90 transition-opacity shadow-lg">
+                    Simpan Konfigurasi
                 </button>
             </div>
         </div>
     </div>
 
     <!-- Toast Container -->
-    <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
     <script>
-        const APP_VERSION = 'v2.5';
-        let state = {
-            apiKey: '',
-            theme: 'light',
-            status: 'setup', 
-            questions: [],
-            answers: {}, 
-            results: [],
-            chapterAnalysis: {},
-            currentIndex: 0,
-            score: 0
-        };
+        /* --- STATE MANAGEMENT & DATABASE LOKAL --- */
+        let activeQuiz = null; 
+        let localHistory = []; 
+        let userApiKey = localStorage.getItem('geniusApiKey') || '';
+        const THEME_KEY = 'geniusTheme';
 
-        function loadState() {
-            const savedState = localStorage.getItem('geniusQuizState_v2.5');
-            if (savedState) {
-                try {
-                    const parsed = JSON.parse(savedState);
-                    if(parsed.version === APP_VERSION) {
-                        state = { ...state, ...parsed.data };
-                    }
-                } catch(e) { console.error("Error parsing state"); }
-            }
-            
-            if (state.theme === 'dark') {
+        function initApp() {
+            // Load theme
+            const savedTheme = localStorage.getItem(THEME_KEY);
+            if (savedTheme === 'dark') {
                 document.documentElement.classList.add('dark');
                 document.getElementById('theme-icon').classList.replace('ph-moon', 'ph-sun');
             }
-            updateUIBasedOnState();
-        }
 
-        function saveState() {
-            localStorage.setItem('geniusQuizState_v2.5', JSON.stringify({ version: APP_VERSION, data: state }));
-        }
+            // Load DB
+            try {
+                const db = localStorage.getItem('geniusQuizHistory');
+                if (db) localHistory = JSON.parse(db);
+            } catch(e) { console.error("DB parsing error", e); localHistory = []; }
 
-        function resetState() {
-            const key = state.apiKey;
-            const theme = state.theme;
-            state = {
-                apiKey: key, theme: theme,
-                status: 'setup', questions: [], answers: {}, results: [], chapterAnalysis: {}, currentIndex: 0, score: 0
-            };
-            saveState();
-            updateUIBasedOnState();
-        }
-
-        /* --- UI HELPERS --- */
-        function switchScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-            window.scrollTo(0,0);
-        }
-
-        function updateUIBasedOnState() {
-            if (!state.apiKey) setTimeout(openApiModal, 500);
-
-            if (state.status === 'setup') {
-                switchScreen('screen-setup');
-            } else if (state.status === 'playing') {
-                switchScreen('screen-quiz');
-                renderNavGrid();
-                renderCurrentQuestion();
-            } else if (state.status === 'result') {
-                switchScreen('screen-result');
-                renderResultsUI();
-            } else if (state.status === 'loading') {
-                switchScreen('screen-loading');
+            // Route
+            if (!userApiKey) {
+                openApiModal();
             }
+            
+            showScreen('screen-setup');
+        }
+
+        function saveDB() {
+            localStorage.setItem('geniusQuizHistory', JSON.stringify(localHistory));
+        }
+
+        function updateActiveQuizInDB() {
+            if(!activeQuiz) return;
+            const index = localHistory.findIndex(q => q.id === activeQuiz.id);
+            if (index !== -1) {
+                localHistory[index] = activeQuiz;
+            } else {
+                localHistory.unshift(activeQuiz); // Add to beginning
+            }
+            saveDB();
+        }
+
+        /* --- BUG FIX: UI NAVIGATION (STRICT TOGGLE) --- */
+        function showScreen(screenId) {
+            const screens = ['screen-setup', 'screen-loading', 'screen-quiz', 'screen-result', 'screen-history'];
+            screens.forEach(id => {
+                const el = document.getElementById(id);
+                if (id === screenId) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goHome() {
+            if (activeQuiz && activeQuiz.status === 'playing') {
+                if(!confirm("Kuis sedang berjalan. Progres akan disimpan di Riwayat. Kembali ke Awal?")) return;
+                updateActiveQuizInDB();
+                activeQuiz = null;
+            } else {
+                activeQuiz = null;
+            }
+            showScreen('screen-setup');
+        }
+
+        function openHistory() {
+            if (activeQuiz && activeQuiz.status === 'playing') {
+                updateActiveQuizInDB();
+                activeQuiz = null;
+            }
+            renderHistory();
+            showScreen('screen-history');
         }
 
         function toggleTheme() {
@@ -521,629 +443,651 @@
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
                 icon.classList.replace('ph-sun', 'ph-moon');
-                state.theme = 'light';
+                localStorage.setItem(THEME_KEY, 'light');
             } else {
                 html.classList.add('dark');
                 icon.classList.replace('ph-moon', 'ph-sun');
-                state.theme = 'dark';
+                localStorage.setItem(THEME_KEY, 'dark');
             }
-            saveState();
         }
 
+        /* --- API MODAL & LOGIC --- */
         function openApiModal() {
-            document.getElementById('api-key-input').value = state.apiKey || '';
-            document.getElementById('api-modal').classList.remove('opacity-0', 'pointer-events-none');
-            document.getElementById('api-modal-content').classList.remove('scale-95');
+            const modal = document.getElementById('api-modal');
+            const content = document.getElementById('api-modal-content');
+            document.getElementById('api-key-input').value = userApiKey;
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
         }
+
         function closeApiModal() {
-            document.getElementById('api-modal').classList.add('opacity-0', 'pointer-events-none');
-            document.getElementById('api-modal-content').classList.add('scale-95');
+            const modal = document.getElementById('api-modal');
+            const content = document.getElementById('api-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 300);
         }
+
         function saveApiKey() {
             const val = document.getElementById('api-key-input').value.trim();
             if (val) {
-                state.apiKey = val; saveState(); closeApiModal();
-                showToast("Berhasil", "API Key disimpan.", "success");
+                userApiKey = val;
+                localStorage.setItem('geniusApiKey', val);
+                closeApiModal();
+                showToast("Tersimpan", "API Key berhasil diatur.", "success");
+            } else {
+                showToast("Gagal", "API Key tidak boleh kosong.", "error");
             }
         }
 
-        function showToast(title, message, type="info") {
-            const container = document.getElementById("toast-container");
-            const toast = document.createElement("div");
-            let colors = type === "success" ? "bg-emerald-100 border-emerald-500 text-emerald-800 dark:bg-emerald-900/90 dark:border-emerald-400 dark:text-emerald-100" :
-                         type === "error" ? "bg-rose-100 border-rose-500 text-rose-800 dark:bg-rose-900/90 dark:border-rose-400 dark:text-rose-100" :
-                         "bg-blue-100 border-blue-500 text-blue-800 dark:bg-blue-900/90 dark:border-blue-400 dark:text-blue-100";
-            let icon = type === "success" ? "ph-check-circle" : type === "error" ? "ph-warning-circle" : "ph-info";
-
-            toast.className = `flex items-start p-4 mb-2 shadow-lg rounded-xl border-l-4 transform transition-all duration-300 translate-y-full opacity-0 ${colors} pointer-events-auto max-w-sm`;
-            toast.innerHTML = `<i class="ph-fill ${icon} text-2xl mr-3 shrink-0"></i><div class="flex-grow"><h3 class="font-bold text-sm">${title}</h3><p class="text-xs mt-1 opacity-90">${message}</p></div><button class="ml-3 text-current opacity-70 hover:opacity-100" onclick="this.parentElement.remove()"><i class="ph-bold ph-x"></i></button>`;
+        async function fetchGeminiAPI(promptText, useJSON = true) {
+            if (!userApiKey) throw new Error("API Key belum diset.");
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${userApiKey}`;
             
-            container.appendChild(toast);
-            requestAnimationFrame(() => toast.classList.remove("translate-y-full", "opacity-0"));
-            setTimeout(() => { toast.classList.add("opacity-0", "translate-x-full"); setTimeout(() => toast.remove(), 300); }, 5000);
-        }
+            const payload = {
+                contents: [{ parts: [{ text: promptText }] }],
+                systemInstruction: { parts: [{ text: "Anda adalah asisten pembuat soal ahli. Jika diminta mengembalikan JSON, kembalikan hanya array murni yang valid tanpa tambahan markdown apapun." }] }
+            };
 
-        function downloadHtml() {
-            try {
-                const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-                const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "Kuis_Adaptif_AI.html";
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                showToast("Berhasil Diunduh", "File kuis tersimpan di perangkat Anda.", "success");
-            } catch (err) {
-                showToast("Gagal", "Gagal mengunduh file.", "error");
-            }
-        }
-
-        /* --- GEMINI API ENGINE --- */
-        async function fetchGeminiAPI(promptText, sysPrompt = "", useJSON = true) {
-            if (!state.apiKey) throw new Error("API Key tidak ditemukan!");
-            // Using gemini-2.5-flash for reliability and speed
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${state.apiKey}`;
-            
-            const payload = { contents: [{ parts: [{ text: promptText }] }] };
-            if (sysPrompt) payload.systemInstruction = { parts: [{ text: sysPrompt }] };
             if (useJSON) {
-                // Strict JSON Schema enforces the model to output perfect JSON
-                payload.generationConfig = { 
-                    responseMimeType: "application/json",
-                };
+                payload.generationConfig = { responseMimeType: "application/json" };
             }
 
+            let retries = 3;
             let delay = 1000;
-            for (let i = 0; i < 3; i++) { // Max 3 retries
+            for (let i = 0; i < retries; i++) {
                 try {
-                    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
                     if (!response.ok) {
                         const err = await response.json().catch(()=>({}));
-                        throw new Error(err.error?.message || `HTTP ${response.status}`);
+                        throw new Error(err.error?.message || `Error ${response.status}`);
                     }
                     const result = await response.json();
-                    if (!result.candidates || result.candidates.length === 0) throw new Error("Respon API kosong.");
+                    let textResp = result.candidates[0].content.parts[0].text;
                     
-                    let text = result.candidates[0].content.parts[0].text;
-                    
-                    if(useJSON) {
-                        // Extract array safely if markdown leaked
-                        text = text.replace(/```json/gi, '').replace(/```/gi, '').trim();
-                        const startIdx = text.indexOf('[');
-                        const endIdx = text.lastIndexOf(']');
-                        if(startIdx !== -1 && endIdx !== -1) {
-                            text = text.substring(startIdx, endIdx + 1);
+                    if (useJSON) {
+                        // BUG FIX: Regex Extractor (Kebal Markdown)
+                        const arrayMatch = textResp.match(/\[[\s\S]*\]/);
+                        if (arrayMatch) {
+                            textResp = arrayMatch[0];
+                        } else {
+                            // Fallback
+                            const sIdx = textResp.indexOf('[');
+                            const eIdx = textResp.lastIndexOf(']');
+                            if(sIdx !== -1 && eIdx !== -1) textResp = textResp.substring(sIdx, eIdx + 1);
                         }
-                        return JSON.parse(text);
+                        return JSON.parse(textResp);
                     }
-                    return text;
-                } catch (error) {
-                    console.warn(`Attempt ${i+1} failed:`, error);
-                    if (i === 2) throw error;
+                    return textResp;
+                } catch (e) {
+                    if (i === retries - 1) throw e;
                     await new Promise(r => setTimeout(r, delay));
                     delay *= 2;
                 }
             }
         }
 
-        /* --- GENERATION LOGIC --- */
-        async function startQuizGeneration(isRemedial = false, promptOverride = "") {
-            if (!state.apiKey) return openApiModal();
+        /* --- GENERATE QUIZ --- */
+        async function startQuizGeneration() {
+            if (!userApiKey) { openApiModal(); return; }
 
-            let prompt = promptOverride;
-            let sysPrompt = "";
+            const topic = document.getElementById('setup-topic').value.trim();
+            if(!topic) { showToast("Peringatan", "Kisi-kisi atau topik tidak boleh kosong.", "error"); return; }
+            
+            const difficulty = document.getElementById('setup-difficulty').value;
+            const cPG = parseInt(document.getElementById('count-pg').value) || 0;
+            const cPGK = parseInt(document.getElementById('count-pgk').value) || 0;
+            const cJodoh = parseInt(document.getElementById('count-jodohkan').value) || 0;
+            const cIsian = parseInt(document.getElementById('count-isian').value) || 0;
+            const cUraian = parseInt(document.getElementById('count-uraian').value) || 0;
 
-            if (!isRemedial) {
-                const topic = document.getElementById('setup-topic').value.trim() || 'Pengetahuan Umum Acak';
-                const diff = document.getElementById('setup-difficulty').value;
-                const cPG = parseInt(document.getElementById('count-pg').value) || 0;
-                const cPGK = parseInt(document.getElementById('count-pgk').value) || 0;
-                const cMJ = parseInt(document.getElementById('count-mj').value) || 0;
-                const cIS = parseInt(document.getElementById('count-isian').value) || 0;
-                const cUR = parseInt(document.getElementById('count-uraian').value) || 0;
+            const total = cPG + cPGK + cJodoh + cIsian + cUraian;
+            if (total === 0) { showToast("Error", "Total soal tidak boleh 0.", "error"); return; }
 
-                const total = cPG + cPGK + cMJ + cIS + cUR;
-                if(total <= 0) return showToast("Error", "Total soal minimal 1.", "error");
-                if(total > 40) return showToast("Peringatan", "Maksimal 40 soal sekaligus agar proses AI tidak terbebani.", "error");
+            showScreen('screen-loading');
+            document.getElementById('loading-title').innerText = "Meracik Kuis Spesial...";
+            document.getElementById('loading-desc').innerText = `Menganalisis kisi-kisi dan membuat ${total} soal...`;
 
-                let diffDesc = "";
-                if(diff === "Mudah") diffDesc = "Hafalan dasar (C1) dan pemahaman konsep (C2).";
-                else if(diff === "Sedang") diffDesc = "Keseimbangan aplikasi (C3) dan pemahaman (C2).";
-                else if(diff === "Menengah") diffDesc = "Analisis ringan (C4), gunakan konteks kasus keseharian.";
-                else diffDesc = "Full HOTS tingkat tinggi (C4-C6). Wajib skenario analitis, hindari hafalan.";
+            const prompt = `Buatlah soal berdasarkan kisi-kisi/topik berikut:
+"${topic}"
 
-                sysPrompt = `Anda adalah ahli kurikulum pendidikan yang presisi.`;
-                prompt = `Topik / Kisi-kisi materi:
-"""${topic}"""
+Tingkat Kesulitan: ${difficulty}
+Jumlah dan Tipe Soal yang WAJIB dibuat dengan tepat:
+- Pilihan Ganda: ${cPG} soal
+- Pilihan Ganda Kompleks (Jawaban >1): ${cPGK} soal
+- Menjodohkan: ${cJodoh} soal
+- Isian Singkat: ${cIsian} soal
+- Uraian / Essay: ${cUraian} soal
 
-Tingkat Kesulitan: ${diff} (${diffDesc})
+FORMAT KELUARAN WAJIB JSON ARRAY. Contoh Schema per objek:
+1. PG: {"type": "pilihan_ganda", "question": "...", "options": ["A", "B", "C", "D", "E"], "answer": "String persis dari options", "explanation": "..."}
+2. PGK: {"type": "pilihan_ganda_kompleks", "question": "...", "options": ["A", "B", "C", "D"], "answer": ["A", "C"], "explanation": "..."}
+3. Menjodohkan: {"type": "menjodohkan", "question": "Jodohkan istilah", "pairs": [{"left": "Istilah 1", "right": "Arti 1"}, {"left": "Istilah 2", "right": "Arti 2"}], "explanation": "..."}
+4. Isian: {"type": "isian", "question": "...", "answer": "Kunci utama", "explanation": "..."}
+5. Uraian: {"type": "uraian", "question": "...", "answer": "Rubrik penilaian detail", "explanation": "..."}
 
-Buatlah TEPAT dengan komposisi berikut:
-- ${cPG} soal Pilihan Ganda (type: "PG")
-- ${cPGK} soal Pilihan Ganda Kompleks dengan jawaban > 1 (type: "PGK")
-- ${cMJ} soal Menjodohkan (type: "MJ")
-- ${cIS} soal Isian Singkat (type: "ISIAN")
-- ${cUR} soal Uraian analitis (type: "URAIAN")
-
-KEMBALIKAN HANYA ARRAY JSON VALID SEPERTI SKEMA BERIKUT:
-[
-  {
-    "type": "PG" | "PGK" | "MJ" | "ISIAN" | "URAIAN",
-    "chapter": "Nama Bab Pendek",
-    "question": "Teks pertanyaan...",
-    "options": ["Opsi A", "Opsi B", "Opsi C", "Opsi D"], // Min 4 opsi untuk PG, PGK, MJ. KOSONGKAN (array kosong []) untuk ISIAN & URAIAN.
-    "answer": "String persis opsi benar (PG/MJ), ATAU Array of strings (PGK), ATAU Kunci Jawaban Singkat (ISIAN/URAIAN)",
-    "explanation": "Penjelasan konseptual lengkap mengapa jawaban tersebut benar"
-  }
-]`;
-            } else {
-                sysPrompt = "Anda adalah sistem penyusun kuis adaptif.";
-            }
-
-            state.status = 'loading';
-            document.getElementById('loading-title').innerText = isRemedial ? "Menyusun Kuis Adaptif..." : "Menganalisis & Meracik Soal...";
-            saveState(); updateUIBasedOnState();
+PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SAMA DENGAN OPSI.`;
 
             try {
-                const generatedQuestions = await fetchGeminiAPI(prompt, sysPrompt, true);
-                if (!Array.isArray(generatedQuestions) || generatedQuestions.length === 0) throw new Error("Format AI tidak berbentuk Array JSON yang valid.");
-                
-                state.questions = generatedQuestions;
-                state.answers = {};
-                state.currentIndex = 0;
-                state.chapterAnalysis = {};
-                state.status = 'playing';
-                saveState(); updateUIBasedOnState();
-                showToast("Berhasil", "Bank soal siap dikerjakan!", "success");
+                const generated = await fetchGeminiAPI(prompt, true);
+                if (!Array.isArray(generated) || generated.length === 0) throw new Error("Format AI tidak sesuai array.");
+
+                let previewTopic = topic.length > 50 ? topic.substring(0, 50) + "..." : topic;
+                activeQuiz = {
+                    id: Date.now().toString(),
+                    date: new Date().toLocaleString('id-ID'),
+                    topic: previewTopic,
+                    status: 'playing',
+                    settings: { difficulty, total },
+                    questions: generated,
+                    answers: {}, 
+                    currentIndex: 0,
+                    results: [],
+                    score: 0,
+                    analysis: null
+                };
+
+                updateActiveQuizInDB();
+                renderQuizPlayer();
+                showScreen('screen-quiz');
+                showToast("Berhasil", "Kuis siap dikerjakan!", "success");
+
             } catch (error) {
                 console.error(error);
-                state.status = isRemedial ? 'result' : 'setup';
-                saveState(); updateUIBasedOnState();
-                showToast("Gagal Membuat Kuis", "AI gagal merespons dengan benar. Silakan coba klik Generate lagi.", "error");
+                showScreen('screen-setup');
+                showToast("Gagal Meracik", error.message, "error");
             }
         }
 
-        /* --- QUIZ PLAYER LOGIC --- */
-        function formatTypeBadge(type) {
-            const m = {
-                'PG': { l: 'Pilihan Ganda', c: 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' },
-                'PGK': { l: 'PG Kompleks', c: 'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300' },
-                'MJ': { l: 'Menjodohkan', c: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300' },
-                'ISIAN': { l: 'Isian Singkat', c: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300' },
-                'URAIAN': { l: 'Uraian', c: 'bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-300' }
-            };
-            return m[type] || { l: type, c: 'bg-slate-100 text-slate-700' };
-        }
-
-        function renderNavGrid() {
-            const grid = document.getElementById('question-nav-grid');
-            grid.innerHTML = '';
-            state.questions.forEach((q, i) => {
-                const btn = document.createElement('button');
-                const isAns = state.answers[i] !== undefined && (Array.isArray(state.answers[i]) ? state.answers[i].length>0 : state.answers[i] !== '');
-                const isActive = i === state.currentIndex;
-                
-                let baseClass = "w-10 h-10 rounded-xl text-xs font-bold transition-all border flex items-center justify-center ";
-                if (isActive) baseClass += "ring-2 ring-primary-500 border-transparent ";
-                else baseClass += "border-slate-200 dark:border-slate-700 ";
-
-                if (isAns) baseClass += "bg-primary-600 text-white shadow-md shadow-primary-500/30";
-                else {
-                    const tc = formatTypeBadge(q.type).c;
-                    baseClass += `${tc} opacity-70 hover:opacity-100`;
+        /* --- QUIZ PLAYER --- */
+        function loadQuizSession(id) {
+            const found = localHistory.find(q => q.id === id);
+            if (found) {
+                activeQuiz = found;
+                if (activeQuiz.status === 'playing') {
+                    renderQuizPlayer();
+                    showScreen('screen-quiz');
+                } else {
+                    renderResultsUI();
+                    showScreen('screen-result');
                 }
-
-                btn.className = baseClass;
-                btn.textContent = i + 1;
-                btn.onclick = () => { state.currentIndex = i; saveState(); renderCurrentQuestion(); };
-                grid.appendChild(btn);
-            });
+            }
         }
 
-        function renderCurrentQuestion() {
-            if (state.questions.length === 0) return resetState();
-            renderNavGrid(); 
+        function saveAndExit() {
+            updateActiveQuizInDB();
+            openHistory();
+            showToast("Tersimpan", "Kuis disimpan di Riwayat.", "info");
+        }
 
-            const q = state.questions[state.currentIndex];
-            const qIndex = state.currentIndex;
-            const savedAnswer = state.answers[qIndex];
+        function renderQuizPlayer() {
+            if (!activeQuiz || !activeQuiz.questions.length) return;
+            
+            document.getElementById('quiz-header-topic').innerText = activeQuiz.topic;
+            
+            const qIndex = activeQuiz.currentIndex;
+            const q = activeQuiz.questions[qIndex];
+            const ans = activeQuiz.answers[qIndex];
+            const total = activeQuiz.questions.length;
 
-            document.getElementById('quiz-progress-text').innerText = `${qIndex + 1}/${state.questions.length}`;
+            document.getElementById('quiz-progress-text').innerText = `${qIndex + 1} / ${total}`;
+            document.getElementById('quiz-progress-bar').style.width = `${((qIndex + 1) / total) * 100}%`;
 
-            const badgeInfo = formatTypeBadge(q.type);
-            document.getElementById('question-type-badge').className = `px-3 py-1 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-wider ${badgeInfo.c}`;
-            document.getElementById('question-type-badge').innerText = badgeInfo.l;
-            document.getElementById('question-chapter-badge').innerText = q.chapter || "Umum";
+            let typeLabel = q.type === 'pilihan_ganda' ? 'Pilihan Ganda' : 
+                            q.type === 'pilihan_ganda_kompleks' ? 'PG Kompleks (>1 Jawaban)' : 
+                            q.type === 'menjodohkan' ? 'Menjodohkan' : 
+                            q.type === 'isian' ? 'Isian Singkat' : 'Uraian / Essay';
+            
+            document.getElementById('question-badge').innerText = typeLabel;
+            document.getElementById('question-number-display').innerText = `${qIndex + 1}.`;
             document.getElementById('question-text').innerText = q.question;
 
             const container = document.getElementById('options-container');
             container.innerHTML = '';
 
-            if (q.type === 'PG') {
-                (q.options || []).forEach((opt, idx) => {
-                    const isChecked = savedAnswer === opt;
+            if (q.type === 'pilihan_ganda') {
+                q.options.forEach((opt, idx) => {
+                    const isChecked = ans === opt;
+                    const id = `opt-${idx}`;
                     const html = `
-                        <label class="relative cursor-pointer block">
-                            <input type="radio" name="q_opt" value="${opt.replace(/"/g, '&quot;')}" class="sr-only custom-radio" ${isChecked ? 'checked' : ''} onchange="saveAnswerLocally(this.value)">
-                            <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-xl flex items-start gap-4 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50 bg-white/50 dark:bg-slate-800/20">
-                                <div class="w-5 h-5 rounded-full border-2 border-slate-400 mt-0.5 flex items-center justify-center shrink-0">
-                                    <div class="w-2.5 h-2.5 bg-primary-600 rounded-full scale-0 opacity-0 transition-all radio-inner"></div>
+                        <label class="relative cursor-pointer block group" for="${id}">
+                            <input type="radio" name="q_${qIndex}" id="${id}" value="${opt.replace(/"/g, '&quot;')}" class="sr-only custom-radio" ${isChecked ? 'checked' : ''} onchange="saveAnswerLocally(this.value)">
+                            <div class="px-5 py-4 border-2 border-slate-200 dark:border-slate-700 rounded-2xl flex items-center gap-4 transition-colors group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 bg-white/50 dark:bg-slate-900/50">
+                                <div class="w-6 h-6 rounded-full border-2 border-slate-300 dark:border-slate-500 flex items-center justify-center shrink-0">
+                                    <div class="w-3 h-3 bg-primary-600 rounded-full scale-0 opacity-0 transition-all radio-inner"></div>
                                 </div>
-                                <span class="font-medium text-sm sm:text-base leading-relaxed">${opt}</span>
+                                <span class="font-medium text-lg leading-snug">${opt}</span>
                             </div>
                         </label>`;
                     container.insertAdjacentHTML('beforeend', html);
                 });
             } 
-            else if (q.type === 'PGK') {
-                const currentArr = Array.isArray(savedAnswer) ? savedAnswer : [];
-                (q.options || []).forEach((opt, idx) => {
+            else if (q.type === 'pilihan_ganda_kompleks') {
+                const currentArr = Array.isArray(ans) ? ans : [];
+                q.options.forEach((opt, idx) => {
                     const isChecked = currentArr.includes(opt);
+                    const id = `opt-${idx}`;
                     const html = `
-                        <label class="relative cursor-pointer block">
-                            <input type="checkbox" value="${opt.replace(/"/g, '&quot;')}" class="sr-only custom-checkbox" ${isChecked ? 'checked' : ''} onchange="toggleArrayAnswer(this.value)">
-                            <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-xl flex items-start gap-4 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50 bg-white/50 dark:bg-slate-800/20">
-                                <div class="w-5 h-5 rounded border-2 border-slate-400 mt-0.5 flex items-center justify-center shrink-0">
-                                    <i class="ph-bold ph-check text-primary-600 text-xs opacity-0 scale-50 transition-all check-icon"></i>
+                        <label class="relative cursor-pointer block group" for="${id}">
+                            <input type="checkbox" id="${id}" value="${opt.replace(/"/g, '&quot;')}" class="sr-only custom-checkbox" ${isChecked ? 'checked' : ''} onchange="toggleArrayAnswer(this.value)">
+                            <div class="px-5 py-4 border-2 border-slate-200 dark:border-slate-700 rounded-2xl flex items-center gap-4 transition-colors group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 bg-white/50 dark:bg-slate-900/50">
+                                <div class="w-6 h-6 rounded border-2 border-slate-300 dark:border-slate-500 flex items-center justify-center shrink-0">
+                                    <i class="ph-bold ph-check text-primary-600 text-sm opacity-0 scale-50 transition-all check-icon"></i>
                                 </div>
-                                <span class="font-medium text-sm sm:text-base leading-relaxed">${opt}</span>
+                                <span class="font-medium text-lg leading-snug">${opt}</span>
                             </div>
                         </label>`;
                     container.insertAdjacentHTML('beforeend', html);
                 });
             }
-            else if (q.type === 'MJ') {
-                const val = savedAnswer || '';
-                let optsHtml = `<option value="">-- Pilih Pasangan yang Tepat --</option>`;
-                [...(q.options || [])].sort().forEach(opt => {
-                    optsHtml += `<option value="${opt.replace(/"/g, '&quot;')}" ${val===opt?'selected':''}>${opt}</option>`;
+            else if (q.type === 'menjodohkan') {
+                const savedObj = (typeof ans === 'object' && ans !== null && !Array.isArray(ans)) ? ans : {};
+                
+                // BUG FIX: Kunci posisi array yang sudah di-shuffle agar tidak berubah-ubah saat render ulang
+                if (!q.shuffledRights) {
+                    q.shuffledRights = [...q.pairs.map(p => p.right)].sort(() => Math.random() - 0.5);
+                }
+                const rightOptions = q.shuffledRights;
+                
+                const tableHtml = document.createElement('div');
+                tableHtml.className = 'space-y-4 bg-slate-50 dark:bg-slate-800/30 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 w-full';
+                
+                q.pairs.forEach((pair, idx) => {
+                    const selectedVal = savedObj[pair.left] || '';
+                    let selectOptions = `<option value="">-- Pilih Pasangan --</option>`;
+                    rightOptions.forEach(r => {
+                        selectOptions += `<option value="${r.replace(/"/g, '&quot;')}" ${r === selectedVal ? 'selected' : ''}>${r}</option>`;
+                    });
+                    
+                    const rowHtml = `
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                            <div class="flex-1 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl font-medium shadow-sm">
+                                ${pair.left}
+                            </div>
+                            <div class="hidden sm:flex shrink-0 w-8 justify-center text-slate-400">
+                                <i class="ph-bold ph-arrows-left-right text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <select onchange="saveMatchAnswer('${pair.left.replace(/'/g, "\\'")}', this.value)" class="w-full px-4 py-3 bg-primary-50 dark:bg-primary-900/20 border-2 border-primary-200 dark:border-primary-800 rounded-xl outline-none focus:border-primary-500 text-primary-900 dark:text-primary-100 font-medium cursor-pointer shadow-sm">
+                                    ${selectOptions}
+                                </select>
+                            </div>
+                        </div>
+                    `;
+                    tableHtml.insertAdjacentHTML('beforeend', rowHtml);
                 });
+                container.appendChild(tableHtml);
+            }
+            else if (q.type === 'isian') {
                 container.innerHTML = `
-                    <div class="mt-2 bg-indigo-50/50 dark:bg-indigo-900/10 p-4 rounded-xl border border-indigo-100 dark:border-indigo-800/30">
-                        <label class="block text-xs font-bold text-indigo-700 dark:text-indigo-400 uppercase tracking-wider mb-3">Pasangkan dengan:</label>
-                        <select onchange="saveAnswerLocally(this.value)" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-indigo-500 outline-none font-semibold text-sm">
-                            ${optsHtml}
-                        </select>
+                    <div class="mt-4">
+                        <input type="text" value="${ans || ''}" placeholder="Ketik jawaban singkat di sini..." class="w-full px-6 py-5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:border-primary-500 outline-none text-xl transition-colors font-medium shadow-inner" oninput="saveAnswerLocally(this.value)">
                     </div>`;
             }
-            else if (q.type === 'ISIAN') {
-                const val = savedAnswer || '';
+            else if (q.type === 'uraian') {
                 container.innerHTML = `
-                    <div class="mt-2">
-                        <input type="text" value="${val.replace(/"/g, '&quot;')}" placeholder="Ketik jawaban pendek..." class="w-full px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 focus:border-amber-500 outline-none font-medium transition-colors" oninput="saveAnswerLocally(this.value)">
-                    </div>`;
-            }
-            else if (q.type === 'URAIAN') {
-                const val = savedAnswer || '';
-                container.innerHTML = `
-                    <div class="mt-2">
-                        <textarea rows="6" placeholder="Ketik argumen atau analisis Anda di sini..." class="w-full px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 focus:border-rose-500 outline-none font-medium transition-colors resize-y leading-relaxed text-sm sm:text-base" oninput="saveAnswerLocally(this.value)">${val}</textarea>
+                    <div class="mt-4">
+                        <textarea rows="6" placeholder="Uraikan jawaban Anda secara mendetail..." class="w-full px-6 py-5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:border-primary-500 outline-none text-lg transition-colors resize-y leading-relaxed shadow-inner" oninput="saveAnswerLocally(this.value)">${ans || ''}</textarea>
                     </div>`;
             }
 
+            // Buttons
             document.getElementById('btn-prev').style.visibility = qIndex === 0 ? 'hidden' : 'visible';
-            if (qIndex === state.questions.length - 1) {
+            if (qIndex === total - 1) {
                 document.getElementById('btn-next').classList.add('hidden');
                 document.getElementById('btn-submit').classList.remove('hidden');
             } else {
                 document.getElementById('btn-next').classList.remove('hidden');
                 document.getElementById('btn-submit').classList.add('hidden');
             }
+
+            // Animation
+            const card = document.getElementById('question-card');
+            card.style.animation = 'none';
+            card.offsetHeight; 
+            card.style.animation = 'slideUp 0.3s ease-out forwards';
         }
 
         function saveAnswerLocally(val) {
-            state.answers[state.currentIndex] = val;
-            saveState();
+            activeQuiz.answers[activeQuiz.currentIndex] = val;
+            updateActiveQuizInDB();
         }
 
         function toggleArrayAnswer(val) {
-            let current = state.answers[state.currentIndex];
+            let current = activeQuiz.answers[activeQuiz.currentIndex];
             if (!Array.isArray(current)) current = [];
-            if (current.includes(val)) current = current.filter(item => item !== val);
+            if (current.includes(val)) current = current.filter(i => i !== val);
             else current.push(val);
-            state.answers[state.currentIndex] = current;
-            saveState();
+            activeQuiz.answers[activeQuiz.currentIndex] = current;
+            updateActiveQuizInDB();
+        }
+
+        function saveMatchAnswer(leftKey, rightVal) {
+            let current = activeQuiz.answers[activeQuiz.currentIndex];
+            if (typeof current !== 'object' || current === null || Array.isArray(current)) {
+                current = {};
+            }
+            if(rightVal === "") {
+                delete current[leftKey];
+            } else {
+                current[leftKey] = rightVal;
+            }
+            activeQuiz.answers[activeQuiz.currentIndex] = current;
+            updateActiveQuizInDB();
         }
 
         function nextQuestion() {
-            if (state.currentIndex < state.questions.length - 1) {
-                state.currentIndex++; saveState(); renderCurrentQuestion();
+            if (activeQuiz.currentIndex < activeQuiz.questions.length - 1) {
+                activeQuiz.currentIndex++;
+                updateActiveQuizInDB();
+                renderQuizPlayer();
             }
         }
         function prevQuestion() {
-            if (state.currentIndex > 0) {
-                state.currentIndex--; saveState(); renderCurrentQuestion();
+            if (activeQuiz.currentIndex > 0) {
+                activeQuiz.currentIndex--;
+                updateActiveQuizInDB();
+                renderQuizPlayer();
             }
         }
 
-        /* --- EVALUATION LOGIC --- */
+        /* --- EVALUATION (LOCAL + AI) --- */
         async function submitQuiz() {
-            if(!confirm("Kumpulkan jawaban sekarang? AI akan mulai menilai uraian & isian Anda.")) return;
+            if(!confirm("Yakin ingin menyelesaikan kuis ini dan melihat hasil?")) return;
 
-            state.status = 'loading';
-            document.getElementById('loading-title').innerText = "AI Sedang Melakukan Penilaian...";
-            document.getElementById('loading-desc').innerText = "Koreksi semantik untuk Isian dan Uraian membutuhkan waktu beberapa detik.";
-            saveState(); updateUIBasedOnState();
+            showScreen('screen-loading');
+            document.getElementById('loading-title').innerText = "Mengevaluasi Jawaban...";
+            document.getElementById('loading-desc').innerText = "AI sedang membaca essay dan mencocokkan kunci jawaban.";
+
+            let results = [];
+            let aiEvalsNeeded = [];
 
             try {
-                let tempResults = [];
-                let itemsToAiEval = [];
-                state.chapterAnalysis = {};
-
-                // Step 1: Init Chapters
-                state.questions.forEach(q => {
-                    const c = q.chapter || 'Umum';
-                    if(!state.chapterAnalysis[c]) state.chapterAnalysis[c] = { total: 0, correct: 0 };
-                    state.chapterAnalysis[c].total++;
-                });
-
-                // Step 2: Evaluate Objective Locally
-                state.questions.forEach((q, idx) => {
-                    const userAns = state.answers[idx];
-                    let score = 0;
+                // Local Eval
+                activeQuiz.questions.forEach((q, idx) => {
+                    const uAns = activeQuiz.answers[idx];
                     
-                    if (q.type === 'PG' || q.type === 'MJ') {
-                        if(userAns === q.answer) score = 100;
-                        tempResults.push({ index: idx, score: score, userAnswer: userAns || '-', feedback: score? "Benar." : "Salah." });
+                    if (q.type === 'pilihan_ganda') {
+                        const isCorrect = uAns === q.answer;
+                        results.push({ index: idx, score: isCorrect ? 100 : 0, userAnswer: uAns || '-', feedback: isCorrect ? "Benar!" : `Salah. Kunci: ${q.answer}` });
                     } 
-                    else if (q.type === 'PGK') {
-                        const correctArr = Array.isArray(q.answer) ? q.answer : [q.answer];
-                        const userArr = Array.isArray(userAns) ? userAns : [];
-                        const isCorrect = userArr.length === correctArr.length && userArr.every(val => correctArr.includes(val));
-                        if(isCorrect) score = 100;
-                        else if (userArr.length > 0) {
-                            const correctSelected = userArr.filter(v => correctArr.includes(v)).length;
-                            const wrongSelected = userArr.filter(v => !correctArr.includes(v)).length;
-                            score = Math.max(0, Math.round((correctSelected / correctArr.length) * 100) - (wrongSelected*20));
+                    else if (q.type === 'pilihan_ganda_kompleks') {
+                        const cArr = Array.isArray(q.answer) ? q.answer : [];
+                        const uArr = Array.isArray(uAns) ? uAns : [];
+                        let score = 0;
+                        if(uArr.length > 0) {
+                            const corrects = uArr.filter(v => cArr.includes(v)).length;
+                            const wrongs = uArr.filter(v => !cArr.includes(v)).length;
+                            score = Math.max(0, Math.round((corrects / cArr.length) * 100) - (wrongs * 30));
                         }
-                        tempResults.push({ index: idx, score: score, userAnswer: userArr.join(', ') || '-', feedback: score==100? "Sempurna." : "Kurang tepat." });
+                        results.push({ index: idx, score: score, userAnswer: uArr.join(', ') || '-', feedback: `Kunci: ${cArr.join(', ')}` });
+                    }
+                    else if (q.type === 'menjodohkan') {
+                        const uObj = (typeof uAns === 'object' && uAns !== null && !Array.isArray(uAns)) ? uAns : {};
+                        let corrects = 0;
+                        let detailPairs = [];
+                        q.pairs.forEach(p => {
+                            const isMatch = uObj[p.left] === p.right;
+                            if(isMatch) corrects++;
+                            detailPairs.push(`${p.left} -> ${uObj[p.left] || '(kosong)'} ${isMatch?'(✓)':'(✗)'}`);
+                        });
+                        const score = Math.round((corrects / q.pairs.length) * 100);
+                        results.push({ index: idx, score, userAnswer: detailPairs.join('<br>'), feedback: `Kunci benar: ${q.pairs.map(p=>`${p.left}=${p.right}`).join(' | ')}` });
                     }
                     else {
-                        // ISIAN & URAIAN to AI
-                        itemsToAiEval.push({ index: idx, question: q.question, expected: q.answer, user_answer: userAns || "" });
+                        // isian / uraian -> AI
+                        aiEvalsNeeded.push({ index: idx, type: q.type, question: q.question, key: q.answer, user: uAns || "" });
                     }
                 });
 
-                // Step 3: API Call for Subjective
-                if (itemsToAiEval.length > 0) {
-                    const pText = `Evaluasi semantik atas jawaban siswa berikut (Skor 0-100) berdasarkan kedekatan dengan target.
-Data JSON Soal dan Jawaban:
-${JSON.stringify(itemsToAiEval)}
-
-Kembalikan ARRAY JSON SAJA dengan skema:
-[ { "index": (number id asli), "score": (number 0-100), "feedback": (string ulasan mengapa dinilai demikian) } ]`;
-                    
-                    try {
-                        const aiRes = await fetchGeminiAPI(pText, "Anda pemeriksa ujian.", true);
-                        aiRes.forEach(ev => {
-                            const orig = itemsToAiEval.find(i => i.index === ev.index);
-                            if(orig) {
-                                tempResults.push({ index: ev.index, score: ev.score||0, userAnswer: orig.user_answer || '-', feedback: ev.feedback });
-                            }
-                        });
-                    } catch (aiErr) {
-                        console.error("AI grading failed", aiErr);
-                        // Fallback
-                        itemsToAiEval.forEach(orig => {
-                            tempResults.push({ index: orig.index, score: 0, userAnswer: orig.user_answer || '-', feedback: "Gagal dinilai otomatis oleh AI." });
-                        });
-                    }
+                // AI Eval
+                if (aiEvalsNeeded.length > 0) {
+                    const p = `Evaluasi jawaban siswa secara objektif (0-100). Data JSON:\n${JSON.stringify(aiEvalsNeeded)}\nKEMBALIKAN ARRAY JSON: [{"index": number, "score": number, "feedback": "string singkat"}].`;
+                    const aiRes = await fetchGeminiAPI(p, true);
+                    aiRes.forEach(r => {
+                        const uAnsTxt = aiEvalsNeeded.find(i=>i.index === r.index)?.user || '-';
+                        results.push({ index: r.index, score: r.score || 0, userAnswer: uAnsTxt, feedback: r.feedback });
+                    });
                 }
 
-                // Step 4: Finalize
-                tempResults.sort((a, b) => a.index - b.index);
-                state.results = tempResults;
-                
-                let totalScore = 0;
-                tempResults.forEach((res, idx) => {
-                    totalScore += res.score;
-                    const c = state.questions[idx].chapter || 'Umum';
-                    if(res.score >= 80) state.chapterAnalysis[c].correct++;
-                });
-                
-                state.score = Math.round(totalScore / state.questions.length);
-                state.status = 'result';
-                saveState(); updateUIBasedOnState();
+                // Finalize
+                results.sort((a,b) => a.index - b.index);
+                activeQuiz.results = results;
+                activeQuiz.score = Math.round(results.reduce((a,b)=>a+b.score, 0) / activeQuiz.questions.length);
+                activeQuiz.status = 'result';
+                updateActiveQuizInDB();
 
-            } catch (error) {
-                console.error(error);
-                state.status = 'playing';
-                saveState(); updateUIBasedOnState();
-                showToast("Gagal Menilai", "Silakan kumpulkan ulang. " + error.message, "error");
+                renderResultsUI();
+                showScreen('screen-result');
+
+            } catch (e) {
+                console.error(e);
+                showScreen('screen-quiz');
+                showToast("Gagal Mengevaluasi", e.message, "error");
             }
         }
 
-        /* --- RESULTS UI --- */
         function renderResultsUI() {
-            const el = document.getElementById('final-score');
-            const target = state.score;
-            let curr = 0;
-            const timer = setInterval(() => {
-                curr += target / (1000/20);
-                if (curr >= target) { curr = target; clearInterval(timer); }
-                el.innerText = Math.round(curr);
-            }, 20);
-
-            // Chapter Analysis
-            const cCont = document.getElementById('chapter-analysis-container');
-            cCont.innerHTML = '';
-            Object.keys(state.chapterAnalysis).forEach(ch => {
-                const data = state.chapterAnalysis[ch];
-                const pct = Math.round((data.correct / data.total) * 100);
-                let col = pct>=80 ? 'bg-emerald-500' : (pct>=50 ? 'bg-amber-500' : 'bg-rose-500');
-                let lbl = pct>=80 ? 'Kuat' : (pct>=50 ? 'Sedang' : 'Lemah');
-                cCont.innerHTML += `
-                    <div class="bg-white/50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="font-bold text-sm">${ch}</span>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700">${lbl} (${data.correct}/${data.total})</span>
-                        </div>
-                        <div class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                            <div class="h-full ${col}" style="width:${pct}%"></div>
-                        </div>
-                    </div>`;
-            });
-
-            filterReview('all');
-        }
-
-        let currentFilter = 'all';
-        function filterReview(type) {
-            currentFilter = type;
-            const btnAll = document.getElementById('btn-filter-all');
-            const btnWro = document.getElementById('btn-filter-wrong');
+            document.getElementById('final-score').innerText = activeQuiz.score;
+            document.getElementById('ai-analysis-container').classList.add('hidden');
             
-            if(type === 'all') {
-                btnAll.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-800";
-                btnWro.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-200 text-slate-600 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-400";
-            } else {
-                btnAll.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-200 text-slate-600 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-400";
-                btnWro.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-rose-600 text-white";
-            }
+            // Render specific results
+            const cont = document.getElementById('results-container');
+            cont.innerHTML = '';
 
-            const container = document.getElementById('results-container');
-            container.innerHTML = '';
+            activeQuiz.questions.forEach((q, idx) => {
+                const r = activeQuiz.results[idx];
+                const bg = r.score === 100 ? 'border-green-500' : r.score > 0 ? 'border-yellow-500' : 'border-red-500';
+                const icon = r.score === 100 ? '<i class="ph-fill ph-check-circle text-green-500 text-3xl"></i>' : 
+                             r.score > 0 ? '<i class="ph-fill ph-warning-circle text-yellow-500 text-3xl"></i>' : 
+                             '<i class="ph-fill ph-x-circle text-red-500 text-3xl"></i>';
 
-            state.questions.forEach((q, idx) => {
-                const res = state.results[idx];
-                if (type === 'wrong' && res.score >= 80) return;
+                let uAnsDisplay = r.userAnswer;
+                if(q.type === 'menjodohkan') { /* HTML inside is allowed */ }
 
-                const isGood = res.score >= 80;
-                let bColor = isGood ? 'border-emerald-500' : 'border-rose-500';
-                
                 const html = `
-                    <div class="glass rounded-2xl p-5 shadow-sm border-l-4 ${bColor}">
-                        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4 border-b border-slate-200 dark:border-slate-700/50 pb-3">
-                            <div>
-                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">${q.chapter} • ${q.type}</span>
-                                <h4 class="font-bold text-sm sm:text-base mt-1">${idx+1}. ${q.question}</h4>
-                            </div>
-                            <div class="shrink-0 font-black text-lg ${isGood?'text-emerald-600':'text-rose-600'}">${res.score}/100</div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm mb-4">
-                            <div class="p-3 bg-white/60 dark:bg-slate-900/40 rounded-xl border border-slate-200 dark:border-slate-700">
-                                <span class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Jawaban Anda</span>
-                                <div class="font-medium ${isGood?'text-emerald-700 dark:text-emerald-400':'text-rose-700 dark:text-rose-400'}">${res.userAnswer}</div>
-                            </div>
-                            <div class="p-3 bg-primary-50/50 dark:bg-primary-900/10 rounded-xl border border-primary-100 dark:border-primary-800/30">
-                                <span class="block text-[10px] font-bold text-primary-600 dark:text-primary-400 mb-1 uppercase">Target Kunci AI</span>
-                                <div class="font-medium text-slate-700 dark:text-slate-300">${Array.isArray(q.answer) ? q.answer.join(', ') : q.answer}</div>
+                    <div class="glass rounded-2xl p-6 border-l-8 ${bg} shadow-md relative">
+                        <div class="flex justify-between items-start gap-4 mb-4">
+                            <h4 class="font-bold text-lg"><span class="mr-2 text-slate-400">${idx+1}.</span> ${q.question}</h4>
+                            <div class="flex flex-col items-end shrink-0">
+                                ${icon}
+                                <span class="text-sm font-black mt-1 ${r.score==100?'text-green-600':r.score>0?'text-yellow-600':'text-red-600'}">Skor: ${r.score}</span>
                             </div>
                         </div>
                         
-                        <div class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg flex gap-3">
-                            <i class="ph-fill ph-lightbulb text-amber-500 text-lg shrink-0"></i>
-                            <div>
-                                <span class="font-bold block mb-1">Pembahasan & Feedback:</span>
-                                <div><strong>Evaluasi:</strong> ${res.feedback} <br><strong>Konsep:</strong> ${q.explanation}</div>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm mt-4">
+                            <div class="bg-slate-100 dark:bg-slate-800 p-4 rounded-xl overflow-x-auto">
+                                <span class="block text-xs font-bold text-slate-400 uppercase mb-2">Jawaban Anda</span>
+                                <div class="font-medium">${uAnsDisplay}</div>
+                            </div>
+                            <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800 overflow-x-auto">
+                                <span class="block text-xs font-bold text-blue-500 uppercase mb-2">Feedback / Pembahasan</span>
+                                <div class="font-medium text-slate-700 dark:text-slate-300">
+                                    ${r.feedback} <br><br>
+                                    <span class="text-xs text-slate-500">Info Asli: ${q.explanation || '-'}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>`;
-                container.insertAdjacentHTML('beforeend', html);
-            });
-        }
-
-        /* --- AI TUTOR & REMEDIAL --- */
-        async function generateRangkumanAI() {
-            const box = document.getElementById('ai-summary-box');
-            const cont = document.getElementById('ai-summary-content');
-            box.classList.remove('hidden');
-            cont.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Menyusun modul rangkuman dari kelemahan Anda...`;
-            
-            let weak = [];
-            Object.keys(state.chapterAnalysis).forEach(ch => {
-                const d = state.chapterAnalysis[ch];
-                if((d.correct/d.total)*100 < 80) weak.push(ch);
-            });
-
-            if(weak.length === 0) {
-                cont.innerHTML = "Luar biasa! Anda menguasai semua bab dengan baik (>80%)."; return;
-            }
-
-            const p = `Buatkan ringkasan materi belajar singkat (3-4 paragraf) khusus untuk bab berikut yang menjadi kelemahan siswa: ${weak.join(', ')}. Fokus pada konsep kunci. Return teks murni.`;
-            try {
-                const res = await fetchGeminiAPI(p, "Tutor Pendidikan", false);
-                cont.innerHTML = markedToHtml(res);
-            } catch(e) {
-                cont.innerHTML = "Gagal memuat rangkuman AI.";
-            }
-        }
-
-        async function generateRemedialQuiz() {
-            let weak = [];
-            Object.keys(state.chapterAnalysis).forEach(ch => {
-                const d = state.chapterAnalysis[ch];
-                if((d.correct/d.total)*100 < 80) weak.push(ch);
-            });
-            if(weak.length === 0) {
-                showToast("Sempurna", "Anda tidak memiliki bab lemah untuk diremedial!", "info"); return;
-            }
-            
-            const prompt = `Topik Remedial: ${weak.join(', ')}.
-Buatkan TEPAT 5 soal Pilihan Ganda (type: "PG") fokus pada bab-bab tersebut. Format array JSON murni seperti awal.`;
-            await startQuizGeneration(true, prompt);
-        }
-
-        function openAIChatModal() {
-            document.getElementById('ai-chat-modal').classList.remove('opacity-0', 'pointer-events-none');
-            document.getElementById('ai-chat-content').classList.remove('scale-95');
-            const q = state.questions[state.currentIndex];
-            document.getElementById('ai-chat-history').innerHTML = `
-                <div class="flex gap-3">
-                    <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none border border-slate-200 dark:border-slate-700 text-sm max-w-[85%] text-slate-700 dark:text-slate-300">
-                        Saya AI Tutor. Ada yang belum jelas dari pertanyaan ini?<br><br><i class="text-xs opacity-70">"${q.question}"</i>
                     </div>
-                </div>`;
-            document.getElementById('ai-suggested-questions').innerHTML = `
-                <button onclick="document.getElementById('ai-user-query').value='Jelaskan teori dasarnya'; sendAIChat();" class="text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded-full">Jelaskan teorinya</button>
-                <button onclick="document.getElementById('ai-user-query').value='Beri contoh kasus lain'; sendAIChat();" class="text-[10px] bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded-full">Beri contoh lain</button>`;
-        }
-        function closeAIChatModal() {
-            document.getElementById('ai-chat-modal').classList.add('opacity-0', 'pointer-events-none');
-            document.getElementById('ai-chat-content').classList.add('scale-95');
+                `;
+                cont.insertAdjacentHTML('beforeend', html);
+            });
         }
 
-        async function sendAIChat() {
-            const input = document.getElementById('ai-user-query');
-            const txt = input.value.trim();
-            if(!txt) return;
-            input.value = '';
+        async function generateAnalysis() {
+            if (activeQuiz.analysis) {
+                showAnalysisUI();
+                return;
+            }
 
-            const hist = document.getElementById('ai-chat-history');
-            hist.innerHTML += `
-                <div class="flex gap-3 justify-end mt-4">
-                    <div class="bg-violet-600 text-white p-3 rounded-2xl rounded-tr-none text-sm max-w-[85%]">${txt}</div>
-                </div>`;
-            
-            const loadId = 'ai-load-'+Date.now();
-            hist.innerHTML += `
-                <div id="${loadId}" class="flex gap-3 mt-4">
-                    <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none border border-slate-200 dark:border-slate-700 text-sm"><i class="ph-bold ph-spinner animate-spin"></i> Mengetik...</div>
-                </div>`;
-            hist.scrollTop = hist.scrollHeight;
+            const btn = document.getElementById('btn-ai-analysis');
+            btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> Menganalisis...`;
+            btn.disabled = true;
 
-            const q = state.questions[state.currentIndex];
-            const p = `Konteks Soal: "${q.question}". Jawaban benar: "${q.answer}". \nPertanyaan Siswa: "${txt}". \nJawab sebagai tutor, bimbing tanpa langsung memberi tahu jawaban kuis.`;
+            const wrongData = activeQuiz.results.filter(r => r.score < 100).map(r => {
+                return { q: activeQuiz.questions[r.index].question, score: r.score };
+            });
+
+            const prompt = `Ini adalah hasil kuis siswa dengan topik "${activeQuiz.topic}".
+Nilai Total: ${activeQuiz.score}/100.
+Berikut soal-soal yang nilainya belum sempurna (0 atau parsial):
+${JSON.stringify(wrongData)}
+
+Berikan analisis mendalam bergaya Markdown (tidak perlu JSON) yang berisi:
+1. Evaluasi Singkat: Apresiasi atau motivasi.
+2. Identifikasi Kelemahan: Materi/Konsep apa yang masih kurang dipahami siswa berdasarkan kesalahan di atas.
+3. Rangkuman Belajar (Mini Modul): Penjelasan materi/konsep yang direkomendasikan untuk menambal kelemahan tersebut.
+Gunakan paragraf yang rapi, *bullet points*, dan gunakan bahasa Indonesia yang ramah (seperti guru).`;
+
             try {
-                const res = await fetchGeminiAPI(p, "", false);
-                document.getElementById(loadId).remove();
-                hist.innerHTML += `
-                <div class="flex gap-3 mt-4">
-                    <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none border border-slate-200 dark:border-slate-700 text-sm max-w-[85%] prose dark:prose-invert leading-relaxed">${markedToHtml(res)}</div>
-                </div>`;
-                hist.scrollTop = hist.scrollHeight;
-            } catch(e) {
-                document.getElementById(loadId).innerText = "Gagal memuat respon.";
+                const textHTML = await fetchGeminiAPI(prompt, false);
+                activeQuiz.analysis = textHTML;
+                updateActiveQuizInDB();
+                showAnalysisUI();
+            } catch (e) {
+                showToast("Gagal Menganalisis", e.message, "error");
+            } finally {
+                btn.innerHTML = `<i class="ph-bold ph-magic-wand"></i> Rangkuman & Analisis AI`;
+                btn.disabled = false;
             }
         }
 
-        function markedToHtml(text) {
-            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+        function showAnalysisUI() {
+            document.getElementById('ai-analysis-container').classList.remove('hidden');
+            // Format basic markdown to html safely
+            let html = activeQuiz.analysis
+                .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold mt-4 mb-2 text-primary-600 dark:text-primary-400">$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold mt-6 mb-3">$1</h2>')
+                .replace(/^\*\* (.*$)/gim, '<strong>$1</strong>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/^\* (.*$)/gim, '<li class="ml-4 list-disc">$1</li>')
+                .replace(/\n/g, '<br/>');
+            
+            document.getElementById('ai-analysis-content').innerHTML = html;
         }
 
-        window.onload = loadState;
+        /* --- HISTORY VIEW --- */
+        function renderHistory() {
+            const cont = document.getElementById('history-container');
+            cont.innerHTML = '';
+
+            if (localHistory.length === 0) {
+                cont.innerHTML = `<div class="text-center py-10 text-slate-500"><i class="ph-fill ph-ghost text-5xl mb-3 opacity-50"></i><p>Belum ada kuis yang tersimpan.</p></div>`;
+                return;
+            }
+
+            localHistory.forEach(quiz => {
+                const isDone = quiz.status === 'result';
+                const html = `
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col sm:flex-row justify-between sm:items-center gap-4 hover:border-primary-300 transition-colors">
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs font-bold px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+                                    <i class="ph-bold ph-calendar-blank"></i> ${quiz.date}
+                                </span>
+                                ${isDone 
+                                    ? `<span class="text-xs font-bold px-2 py-1 rounded bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300">Selesai</span>`
+                                    : `<span class="text-xs font-bold px-2 py-1 rounded bg-yellow-100 text-yellow-700 dark:bg-yellow-900/50 dark:text-yellow-300">Belum Selesai (Soal ${quiz.currentIndex + 1})</span>`
+                                }
+                            </div>
+                            <h4 class="font-bold text-lg mb-1 line-clamp-1">${quiz.topic}</h4>
+                            <p class="text-sm text-slate-500">${quiz.settings.total} Soal • Level: ${quiz.settings.difficulty}</p>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            ${isDone ? `
+                                <div class="bg-slate-50 dark:bg-slate-900 px-4 py-2 rounded-xl text-center border border-slate-200 dark:border-slate-700 mr-2">
+                                    <span class="block text-[10px] uppercase font-bold text-slate-400">Skor</span>
+                                    <span class="font-black text-xl text-primary-600 dark:text-primary-400">${quiz.score}</span>
+                                </div>
+                            ` : ''}
+                            <button onclick="loadQuizSession('${quiz.id}')" class="flex-1 sm:flex-none px-5 py-2.5 bg-primary-100 hover:bg-primary-200 text-primary-700 dark:bg-primary-900/50 dark:hover:bg-primary-800 dark:text-primary-300 rounded-xl font-bold transition-colors">
+                                ${isDone ? 'Lihat Hasil' : 'Lanjutkan'}
+                            </button>
+                            <button onclick="deleteHistory('${quiz.id}')" class="px-3 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 dark:bg-red-900/20 dark:hover:bg-red-900/40 rounded-xl transition-colors" title="Hapus">
+                                <i class="ph-bold ph-trash text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cont.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function deleteHistory(id) {
+            if(confirm("Yakin ingin menghapus kuis ini dari riwayat?")) {
+                localHistory = localHistory.filter(q => q.id !== id);
+                saveDB();
+                renderHistory();
+            }
+        }
+
+        /* --- DOWNLOAD HTML --- */
+        function downloadHtml() {
+            try {
+                const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+                const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+                
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "kuis_ai_stabil.html";
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                showToast("Berhasil", "File diunduh. History lokal tidak ikut terunduh.", "success");
+            } catch (err) {
+                showToast("Unduhan Gagal", "Gagal mengunduh berkas.", "error");
+            }
+        }
+
+        /* --- TOAST --- */
+        function showToast(title, message, type = "info") {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            
+            let colors = type === "success" ? "bg-green-100 border-green-500 text-green-800 dark:bg-green-900/80 dark:border-green-400 dark:text-green-100" :
+                         type === "error" ? "bg-red-100 border-red-500 text-red-800 dark:bg-red-900/80 dark:border-red-400 dark:text-red-100" :
+                         "bg-blue-100 border-blue-500 text-blue-800 dark:bg-blue-900/80 dark:border-blue-400 dark:text-blue-100";
+            
+            let icon = type === "success" ? "ph-check-circle" : type === "error" ? "ph-warning-circle" : "ph-info";
+
+            toast.className = `flex items-start p-4 mb-2 shadow-xl rounded-2xl border-l-4 transform transition-all duration-300 translate-x-full opacity-0 ${colors} pointer-events-auto max-w-sm backdrop-blur-md`;
+            toast.innerHTML = `
+                <i class="ph-fill ${icon} text-2xl mr-3 shrink-0"></i>
+                <div class="flex-grow">
+                    <h3 class="font-bold text-sm">${title}</h3>
+                    <p class="text-xs mt-1 opacity-90">${message}</p>
+                </div>
+                <button class="ml-3 text-current opacity-70 hover:opacity-100" onclick="this.parentElement.remove()">
+                    <i class="ph-bold ph-x"></i>
+                </button>
+            `;
+            
+            container.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove("translate-x-full", "opacity-0");
+            });
+
+            setTimeout(() => {
+                toast.classList.add("opacity-0", "translate-x-full");
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // INIT
+        window.onload = initApp;
+
     </script>
 </body>
 </html>
