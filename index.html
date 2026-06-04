@@ -68,7 +68,7 @@
         .dark .custom-checkbox:checked + div { border-color: #60a5fa; background-color: rgba(59, 130, 246, 0.2); }
         .custom-checkbox:checked + div .check-icon { opacity: 1; transform: scale(1); }
 
-        /* BUG FIX: Strict Screen Display Control */
+        /* Strict Screen Display Control */
         .app-screen { display: none !important; }
         .app-screen.active { 
             display: flex !important; 
@@ -147,41 +147,24 @@
                     <div>
                         <label class="block text-sm font-semibold mb-3">Tentukan Jumlah Per Tipe Soal</label>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <!-- PG -->
                             <div class="bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-4 rounded-xl flex items-center justify-between shadow-sm hover:border-primary-300 transition-colors">
-                                <div>
-                                    <h4 class="font-bold text-sm">Pilihan Ganda</h4>
-                                </div>
+                                <div><h4 class="font-bold text-sm">Pilihan Ganda</h4></div>
                                 <input type="number" id="count-pg" min="0" value="5" class="w-20 px-3 py-2 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-bold">
                             </div>
-                            <!-- PG Kompleks -->
                             <div class="bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-4 rounded-xl flex items-center justify-between shadow-sm hover:border-primary-300 transition-colors">
-                                <div>
-                                    <h4 class="font-bold text-sm">PG Kompleks</h4>
-                                    <p class="text-[10px] text-slate-500">Jawaban >1</p>
-                                </div>
+                                <div><h4 class="font-bold text-sm">PG Kompleks</h4><p class="text-[10px] text-slate-500">Jawaban >1</p></div>
                                 <input type="number" id="count-pgk" min="0" value="0" class="w-20 px-3 py-2 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-bold">
                             </div>
-                            <!-- Menjodohkan -->
                             <div class="bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-4 rounded-xl flex items-center justify-between shadow-sm hover:border-primary-300 transition-colors">
-                                <div>
-                                    <h4 class="font-bold text-sm">Menjodohkan</h4>
-                                </div>
+                                <div><h4 class="font-bold text-sm">Menjodohkan</h4></div>
                                 <input type="number" id="count-jodohkan" min="0" value="0" class="w-20 px-3 py-2 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-bold">
                             </div>
-                            <!-- Isian -->
                             <div class="bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-4 rounded-xl flex items-center justify-between shadow-sm hover:border-primary-300 transition-colors">
-                                <div>
-                                    <h4 class="font-bold text-sm">Isian Singkat</h4>
-                                </div>
+                                <div><h4 class="font-bold text-sm">Isian Singkat</h4></div>
                                 <input type="number" id="count-isian" min="0" value="0" class="w-20 px-3 py-2 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-bold">
                             </div>
-                            <!-- Uraian -->
                             <div class="bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 p-4 rounded-xl flex items-center justify-between shadow-sm lg:col-span-2 hover:border-primary-300 transition-colors">
-                                <div>
-                                    <h4 class="font-bold text-sm">Uraian / Essay</h4>
-                                    <p class="text-[10px] text-slate-500">Koreksi otomatis oleh AI</p>
-                                </div>
+                                <div><h4 class="font-bold text-sm">Uraian / Essay</h4><p class="text-[10px] text-slate-500">Koreksi otomatis oleh AI</p></div>
                                 <input type="number" id="count-uraian" min="0" value="0" class="w-20 px-3 py-2 text-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary-500 outline-none font-bold">
                             </div>
                         </div>
@@ -347,7 +330,7 @@
                 </div>
                 <div class="text-xs text-slate-600 dark:text-slate-400 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800/50 flex gap-3">
                     <i class="ph-fill ph-info text-blue-500 text-lg shrink-0"></i>
-                    <p>Key disimpan aman 100% secara lokal di browser Anda. Dapatkan gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-primary-600 dark:text-primary-400 font-bold hover:underline">Google AI Studio</a>.</p>
+                    <p>Key disimpan aman 100% secara lokal di browser. Dapatkan versi GRATIS di <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-primary-600 dark:text-primary-400 font-bold hover:underline">Google AI Studio</a>.</p>
                 </div>
                 <button onclick="saveApiKey()" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 px-4 rounded-xl hover:opacity-90 transition-opacity shadow-lg">
                     Simpan Konfigurasi
@@ -367,23 +350,18 @@
         const THEME_KEY = 'geniusTheme';
 
         function initApp() {
-            // Load theme
             const savedTheme = localStorage.getItem(THEME_KEY);
             if (savedTheme === 'dark') {
                 document.documentElement.classList.add('dark');
                 document.getElementById('theme-icon').classList.replace('ph-moon', 'ph-sun');
             }
 
-            // Load DB
             try {
                 const db = localStorage.getItem('geniusQuizHistory');
                 if (db) localHistory = JSON.parse(db);
             } catch(e) { console.error("DB parsing error", e); localHistory = []; }
 
-            // Route
-            if (!userApiKey) {
-                openApiModal();
-            }
+            if (!userApiKey) openApiModal();
             
             showScreen('screen-setup');
         }
@@ -398,12 +376,11 @@
             if (index !== -1) {
                 localHistory[index] = activeQuiz;
             } else {
-                localHistory.unshift(activeQuiz); // Add to beginning
+                localHistory.unshift(activeQuiz);
             }
             saveDB();
         }
 
-        /* --- BUG FIX: UI NAVIGATION (STRICT TOGGLE) --- */
         function showScreen(screenId) {
             const screens = ['screen-setup', 'screen-loading', 'screen-quiz', 'screen-result', 'screen-history'];
             screens.forEach(id => {
@@ -483,13 +460,15 @@
             }
         }
 
+        /* PERBAIKAN: Menggunakan Model `gemini-1.5-flash` yang selalu didukung public key gratis */
         async function fetchGeminiAPI(promptText, useJSON = true) {
             if (!userApiKey) throw new Error("API Key belum diset.");
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${userApiKey}`;
+            // ENDPOINT FIX: gemini-1.5-flash instead of restricted 2.5 preview
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${userApiKey}`;
             
             const payload = {
                 contents: [{ parts: [{ text: promptText }] }],
-                systemInstruction: { parts: [{ text: "Anda adalah asisten pembuat soal ahli. Jika diminta mengembalikan JSON, kembalikan hanya array murni yang valid tanpa tambahan markdown apapun." }] }
+                systemInstruction: { parts: [{ text: "Anda adalah asisten pembuat soal ahli. Patuhi instruksi dan format JSON murni dengan ketat." }] }
             };
 
             if (useJSON) {
@@ -508,18 +487,18 @@
 
                     if (!response.ok) {
                         const err = await response.json().catch(()=>({}));
-                        throw new Error(err.error?.message || `Error ${response.status}`);
+                        throw new Error(err.error?.message || `Error HTTP: ${response.status}`);
                     }
                     const result = await response.json();
+                    if (!result.candidates || result.candidates.length === 0) throw new Error("Respon kosong");
+
                     let textResp = result.candidates[0].content.parts[0].text;
                     
                     if (useJSON) {
-                        // BUG FIX: Regex Extractor (Kebal Markdown)
                         const arrayMatch = textResp.match(/\[[\s\S]*\]/);
                         if (arrayMatch) {
                             textResp = arrayMatch[0];
                         } else {
-                            // Fallback
                             const sIdx = textResp.indexOf('[');
                             const eIdx = textResp.lastIndexOf(']');
                             if(sIdx !== -1 && eIdx !== -1) textResp = textResp.substring(sIdx, eIdx + 1);
@@ -535,7 +514,7 @@
             }
         }
 
-        /* --- GENERATE QUIZ --- */
+        /* PERBAIKAN: Membagi (Chunking) permintaan API agar tidak memberatkan model Gratisan */
         async function startQuizGeneration() {
             if (!userApiKey) { openApiModal(); return; }
 
@@ -552,33 +531,35 @@
             const total = cPG + cPGK + cJodoh + cIsian + cUraian;
             if (total === 0) { showToast("Error", "Total soal tidak boleh 0.", "error"); return; }
 
+            // TASK CHUNKING: Bagi per jenis soal
+            const tasks = [];
+            if(cPG > 0) tasks.push({ type: 'pilihan_ganda', count: cPG, name: 'Pilihan Ganda', schema: '{"type": "pilihan_ganda", "question": "...", "options": ["A", "B", "C", "D", "E"], "answer": "String persis sama dengan opsi benar", "explanation": "..."}' });
+            if(cPGK > 0) tasks.push({ type: 'pilihan_ganda_kompleks', count: cPGK, name: 'PG Kompleks', schema: '{"type": "pilihan_ganda_kompleks", "question": "...", "options": ["A", "B", "C", "D"], "answer": ["Opsi 1", "Opsi 2"], "explanation": "..."}' });
+            if(cJodoh > 0) tasks.push({ type: 'menjodohkan', count: cJodoh, name: 'Menjodohkan', schema: '{"type": "menjodohkan", "question": "Jodohkan istilah", "pairs": [{"left": "Istilah 1", "right": "Arti 1"}, {"left": "Istilah 2", "right": "Arti 2"}], "explanation": "..."}' });
+            if(cIsian > 0) tasks.push({ type: 'isian', count: cIsian, name: 'Isian Singkat', schema: '{"type": "isian", "question": "...", "answer": "Kunci utama", "explanation": "..."}' });
+            if(cUraian > 0) tasks.push({ type: 'uraian', count: cUraian, name: 'Uraian/Essay', schema: '{"type": "uraian", "question": "...", "answer": "Rubrik penilaian detail", "explanation": "..."}' });
+
             showScreen('screen-loading');
-            document.getElementById('loading-title').innerText = "Meracik Kuis Spesial...";
-            document.getElementById('loading-desc').innerText = `Menganalisis kisi-kisi dan membuat ${total} soal...`;
-
-            const prompt = `Buatlah soal berdasarkan kisi-kisi/topik berikut:
-"${topic}"
-
-Tingkat Kesulitan: ${difficulty}
-Jumlah dan Tipe Soal yang WAJIB dibuat dengan tepat:
-- Pilihan Ganda: ${cPG} soal
-- Pilihan Ganda Kompleks (Jawaban >1): ${cPGK} soal
-- Menjodohkan: ${cJodoh} soal
-- Isian Singkat: ${cIsian} soal
-- Uraian / Essay: ${cUraian} soal
-
-FORMAT KELUARAN WAJIB JSON ARRAY. Contoh Schema per objek:
-1. PG: {"type": "pilihan_ganda", "question": "...", "options": ["A", "B", "C", "D", "E"], "answer": "String persis dari options", "explanation": "..."}
-2. PGK: {"type": "pilihan_ganda_kompleks", "question": "...", "options": ["A", "B", "C", "D"], "answer": ["A", "C"], "explanation": "..."}
-3. Menjodohkan: {"type": "menjodohkan", "question": "Jodohkan istilah", "pairs": [{"left": "Istilah 1", "right": "Arti 1"}, {"left": "Istilah 2", "right": "Arti 2"}], "explanation": "..."}
-4. Isian: {"type": "isian", "question": "...", "answer": "Kunci utama", "explanation": "..."}
-5. Uraian: {"type": "uraian", "question": "...", "answer": "Rubrik penilaian detail", "explanation": "..."}
-
-PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SAMA DENGAN OPSI.`;
+            let generatedQuestions = [];
 
             try {
-                const generated = await fetchGeminiAPI(prompt, true);
-                if (!Array.isArray(generated) || generated.length === 0) throw new Error("Format AI tidak sesuai array.");
+                // Eksekusi API secara berurutan agar ringan
+                for(let i = 0; i < tasks.length; i++) {
+                    const task = tasks[i];
+                    document.getElementById('loading-title').innerText = `Meracik ${task.name}...`;
+                    document.getElementById('loading-desc').innerText = `Tahap ${i+1} dari ${tasks.length}: Menyiapkan ${task.count} soal.`;
+
+                    const prompt = `Topik/Kisi-kisi: "${topic}"\n\nTingkat Kesulitan: ${difficulty}\nBuatlah tepat ${task.count} soal dengan jenis ${task.name}.\n\nFORMAT KELUARAN WAJIB ARRAY JSON MURNI:\n[ ${task.schema} ]`;
+                    
+                    const result = await fetchGeminiAPI(prompt, true);
+                    if (Array.isArray(result)) {
+                        generatedQuestions = generatedQuestions.concat(result);
+                    } else {
+                        throw new Error(`Format tidak sesuai pada saat membuat ${task.name}.`);
+                    }
+                }
+
+                if (generatedQuestions.length === 0) throw new Error("Tidak ada soal yang berhasil digenerate.");
 
                 let previewTopic = topic.length > 50 ? topic.substring(0, 50) + "..." : topic;
                 activeQuiz = {
@@ -586,8 +567,8 @@ PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SA
                     date: new Date().toLocaleString('id-ID'),
                     topic: previewTopic,
                     status: 'playing',
-                    settings: { difficulty, total },
-                    questions: generated,
+                    settings: { difficulty, total: generatedQuestions.length },
+                    questions: generatedQuestions,
                     answers: {}, 
                     currentIndex: 0,
                     results: [],
@@ -598,7 +579,7 @@ PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SA
                 updateActiveQuizInDB();
                 renderQuizPlayer();
                 showScreen('screen-quiz');
-                showToast("Berhasil", "Kuis siap dikerjakan!", "success");
+                showToast("Berhasil", "Kuis berhasil dibuat bertahap!", "success");
 
             } catch (error) {
                 console.error(error);
@@ -691,7 +672,6 @@ PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SA
             else if (q.type === 'menjodohkan') {
                 const savedObj = (typeof ans === 'object' && ans !== null && !Array.isArray(ans)) ? ans : {};
                 
-                // BUG FIX: Kunci posisi array yang sudah di-shuffle agar tidak berubah-ubah saat render ulang
                 if (!q.shuffledRights) {
                     q.shuffledRights = [...q.pairs.map(p => p.right)].sort(() => Math.random() - 0.5);
                 }
@@ -775,11 +755,9 @@ PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SA
             if (typeof current !== 'object' || current === null || Array.isArray(current)) {
                 current = {};
             }
-            if(rightVal === "") {
-                delete current[leftKey];
-            } else {
-                current[leftKey] = rightVal;
-            }
+            if(rightVal === "") delete current[leftKey];
+            else current[leftKey] = rightVal;
+            
             activeQuiz.answers[activeQuiz.currentIndex] = current;
             updateActiveQuizInDB();
         }
@@ -811,7 +789,6 @@ PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SA
             let aiEvalsNeeded = [];
 
             try {
-                // Local Eval
                 activeQuiz.questions.forEach((q, idx) => {
                     const uAns = activeQuiz.answers[idx];
                     
@@ -843,12 +820,10 @@ PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SA
                         results.push({ index: idx, score, userAnswer: detailPairs.join('<br>'), feedback: `Kunci benar: ${q.pairs.map(p=>`${p.left}=${p.right}`).join(' | ')}` });
                     }
                     else {
-                        // isian / uraian -> AI
                         aiEvalsNeeded.push({ index: idx, type: q.type, question: q.question, key: q.answer, user: uAns || "" });
                     }
                 });
 
-                // AI Eval
                 if (aiEvalsNeeded.length > 0) {
                     const p = `Evaluasi jawaban siswa secara objektif (0-100). Data JSON:\n${JSON.stringify(aiEvalsNeeded)}\nKEMBALIKAN ARRAY JSON: [{"index": number, "score": number, "feedback": "string singkat"}].`;
                     const aiRes = await fetchGeminiAPI(p, true);
@@ -858,7 +833,6 @@ PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SA
                     });
                 }
 
-                // Finalize
                 results.sort((a,b) => a.index - b.index);
                 activeQuiz.results = results;
                 activeQuiz.score = Math.round(results.reduce((a,b)=>a+b.score, 0) / activeQuiz.questions.length);
@@ -879,7 +853,6 @@ PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SA
             document.getElementById('final-score').innerText = activeQuiz.score;
             document.getElementById('ai-analysis-container').classList.add('hidden');
             
-            // Render specific results
             const cont = document.getElementById('results-container');
             cont.innerHTML = '';
 
@@ -891,8 +864,6 @@ PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SA
                              '<i class="ph-fill ph-x-circle text-red-500 text-3xl"></i>';
 
                 let uAnsDisplay = r.userAnswer;
-                if(q.type === 'menjodohkan') { /* HTML inside is allowed */ }
-
                 const html = `
                     <div class="glass rounded-2xl p-6 border-l-8 ${bg} shadow-md relative">
                         <div class="flex justify-between items-start gap-4 mb-4">
@@ -938,14 +909,14 @@ PASTIKAN KUNCI JAWABAN (answer) UNTUK PG DAN PGK MENGGUNAKAN TEKS YANG PERSIS SA
 
             const prompt = `Ini adalah hasil kuis siswa dengan topik "${activeQuiz.topic}".
 Nilai Total: ${activeQuiz.score}/100.
-Berikut soal-soal yang nilainya belum sempurna (0 atau parsial):
+Berikut soal-soal yang nilainya belum sempurna:
 ${JSON.stringify(wrongData)}
 
-Berikan analisis mendalam bergaya Markdown (tidak perlu JSON) yang berisi:
-1. Evaluasi Singkat: Apresiasi atau motivasi.
-2. Identifikasi Kelemahan: Materi/Konsep apa yang masih kurang dipahami siswa berdasarkan kesalahan di atas.
-3. Rangkuman Belajar (Mini Modul): Penjelasan materi/konsep yang direkomendasikan untuk menambal kelemahan tersebut.
-Gunakan paragraf yang rapi, *bullet points*, dan gunakan bahasa Indonesia yang ramah (seperti guru).`;
+Berikan analisis mendalam bergaya Markdown (tidak perlu JSON) berisi:
+1. Evaluasi Singkat
+2. Identifikasi Kelemahan Siswa
+3. Rangkuman Belajar (Mini Modul) untuk menambal kelemahan tersebut.
+Gunakan bahasa Indonesia yang ramah.`;
 
             try {
                 const textHTML = await fetchGeminiAPI(prompt, false);
@@ -962,7 +933,6 @@ Gunakan paragraf yang rapi, *bullet points*, dan gunakan bahasa Indonesia yang r
 
         function showAnalysisUI() {
             document.getElementById('ai-analysis-container').classList.remove('hidden');
-            // Format basic markdown to html safely
             let html = activeQuiz.analysis
                 .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold mt-4 mb-2 text-primary-600 dark:text-primary-400">$1</h3>')
                 .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold mt-6 mb-3">$1</h2>')
